@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,6 @@ namespace Assignment1
 			Console.WriteLine("Assignment 1 of the C# AfDEmp Bootcamp \n");
 		}
 
-		public static void showInputOptions()
-		{
-			Console.WriteLine("Options:");
-			Console.WriteLine("");
-		}
 		public static string ManualOrAuto(string element)
 		{
 			string option;
@@ -33,33 +29,68 @@ namespace Assignment1
 
 			return option;
 		}
-		public static List<Student> GetInput(string element)
+
+		public static void AutoFillStudents(List<Student> studentList)
 		{
-			List<Student> tempList = new List<Student>();
+			string path = Path.Combine(Directory.GetCurrentDirectory(), "\\autostudents.txt");
 
-			//string input = Console.ReadLine();
+			string[] allStudents = File.ReadAllLines(path);
 
-			Student tempStudent = new Student()
+			foreach(string line in allStudents)
 			{
-				FirstName = "sotos",
-				LastName = "ploumis",
-				DateOfBirth = new DateTime(1993, 4, 6),
-				TuitionFess = 5334.65
+				bool correct;
+				string[] items = line.Split(',');
+				string fname = items[0];
+				string lname = items[1];
+				correct = Int32.TryParse(items[2],out int year);
+				if (!correct)
+				{
+					Console.WriteLine("the year is not a number, defaulting to 0");
+					year = 0;
+				}
+				correct = Int32.TryParse(items[3], out int month);
+				if (!correct)
+				{
+					Console.WriteLine("the month is not a number, defaulting to 0");
+					month = 0;
+				}
+				correct = Int32.TryParse(items[4], out int day);
+				if (!correct)
+				{
+					Console.WriteLine("the day is not a number, defaulting to 0");
+					day = 0;
+				}
+				correct = Double.TryParse(items[5], out double fees);
+				if (!correct)
+				{
+					Console.WriteLine("The fees are not a number, defaulting to 0");
+					fees = 0;
+				}
+				Student s = new Student()
+				{
+					FirstName = fname,
+					LastName = lname,
+					DateOfBirth = new DateTime(year, month, day),
+					TuitionFess = fees
+				};
+
+				studentList.Add(s);
+				
+			}
+		}
+
+		public static void ManualFillStudents(List<Student> studentList)
+		{
+
+			Student s = new Student()
+			{
+				FirstName = Console.ReadLine(),
+				LastName = Console.ReadLine(),
+				DateOfBirth = new DateTime(1950, 5, 4),
+				TuitionFess = 4444.3
 			};
 
-			tempList.Add(tempStudent);
-
-			tempStudent = new Student()
-			{
-				FirstName = "kostas",
-				LastName = "papadopoulos",
-				DateOfBirth = new DateTime(1980, 7, 2),
-				TuitionFess = 2333.54
-			};
-
-			tempList.Add(tempStudent);
-
-			return tempList;
+			studentList.Add(s);
 		}
 	}
 }
