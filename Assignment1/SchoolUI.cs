@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -32,7 +33,9 @@ namespace Assignment1
 
 		public static void AutoFillStudents(List<Student> studentList)
 		{
-			string path = Path.Combine(Directory.GetCurrentDirectory(), "\\autostudents.txt");
+			string current = Directory.GetCurrentDirectory();
+			
+			string path = Path.Combine(current, @"..\..\Data\autostudents.txt");
 
 			string[] allStudents = File.ReadAllLines(path);
 
@@ -60,7 +63,7 @@ namespace Assignment1
 					Console.WriteLine("the day is not a number, defaulting to 0");
 					day = 0;
 				}
-				correct = Double.TryParse(items[5], out double fees);
+				correct = Double.TryParse(items[5], NumberStyles.Any, CultureInfo.InvariantCulture, out double fees);
 				if (!correct)
 				{
 					Console.WriteLine("The fees are not a number, defaulting to 0");
