@@ -8,6 +8,8 @@ namespace Assignment1
 {
 	class StudentCourse
 	{
+		public int StudentCode{get; set;}
 
+		public int CourseCode{get; set;}
 	}
 }

@@ -46,8 +46,8 @@ namespace Assignment1
 					case MenuOptions.ShowCourses:
 						SchoolUI.ShowCourses(true);
 						break;
-					case MenuOptions.ConnectStudentCourse:
-						SchoolUI.ShowStudentCourses();
+					case MenuOptions.ManageConnections:
+						SchoolUI.ShowConnectionsMenu();
 						break;
 					default:
 						break;

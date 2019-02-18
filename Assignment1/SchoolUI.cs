@@ -15,6 +15,8 @@ namespace Assignment1
 		public static List<Assignment> AssignmentList = new List<Assignment>();
 		public static List<Course> CourseList = new List<Course>();
 
+		public static List<StudentCourse> StudentCourseList = new List<StudentCourse>();
+
 		public static void Greet()
 		{
 			Console.WriteLine("Welcome to School Manager 2019");
@@ -117,7 +119,7 @@ namespace Assignment1
 			{
 				allStudents = File.ReadAllLines(path);
 			}
-			catch (FileNotFoundException e)
+			catch (FileNotFoundException)
 			{
 				Console.WriteLine("auto students file not found\n");
 				return;
@@ -259,7 +261,7 @@ namespace Assignment1
 			{
 				allTrainers = File.ReadAllLines(path);
 			}
-			catch (FileNotFoundException e)
+			catch (FileNotFoundException)
 			{
 				Console.WriteLine("auto trainers file not found\n");
 				return;
@@ -599,6 +601,13 @@ namespace Assignment1
 
 				CourseList.Add(c);
 			}
+		}
+
+		//connections
+
+		public static void ShowConnectionsMenu()
+		{
+
 		}
 
 		// student course
