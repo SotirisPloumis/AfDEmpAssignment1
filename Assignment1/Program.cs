@@ -13,47 +13,17 @@ namespace Assignment1
 			SchoolUI.Greet();
 
 			int choice;
-			MenuOptions UserOption;
+			MenuOptions MainOption;
+			
 
 			do
 			{
 				choice = SchoolUI.ShowMenuAndChoose();
-				UserOption = (MenuOptions)choice;
+				MainOption = (MenuOptions)choice;
 
-				switch (UserOption)
-				{
-					case MenuOptions.InputStudents:
-						SchoolUI.InputStudents();
-						break;
-					case MenuOptions.ShowStudents:
-						SchoolUI.ShowStudents(true);
-						break;
-					case MenuOptions.InputTrainers:
-						SchoolUI.InputTrainers();
-						break;
-					case MenuOptions.ShowTrainers:
-						SchoolUI.ShowTrainers(true);
-						break;
-					case MenuOptions.InputAssignments:
-						SchoolUI.InputAssignments();
-						break;
-					case MenuOptions.ShowAssignments:
-						SchoolUI.ShowAssignments(true);
-						break;
-					case MenuOptions.InputCourses:
-						SchoolUI.InputCourses();
-						break;
-					case MenuOptions.ShowCourses:
-						SchoolUI.ShowCourses(true);
-						break;
-					case MenuOptions.ManageConnections:
-						SchoolUI.ShowConnectionsMenu();
-						break;
-					default:
-						break;
-				}
+				SchoolUI.DoMainAction(MainOption);
 
-			} while (MenuOptions.Exit != UserOption);
+			} while (MenuOptions.Exit != MainOption);
 		}
 
 	}

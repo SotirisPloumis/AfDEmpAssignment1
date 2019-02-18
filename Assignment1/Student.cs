@@ -17,5 +17,12 @@ namespace Assignment1
 		public DateTime DateOfBirth { get; set; }
 
 		public double TuitionFess { get; set; }
+
+		public List<int> CourseCodes { get; set; }
+
+		public Student()
+		{
+			CourseCodes = new List<int>();
+		}
 	}
 }

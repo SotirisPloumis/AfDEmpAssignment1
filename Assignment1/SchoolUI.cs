@@ -15,8 +15,6 @@ namespace Assignment1
 		public static List<Assignment> AssignmentList = new List<Assignment>();
 		public static List<Course> CourseList = new List<Course>();
 
-		public static List<StudentCourse> StudentCourseList = new List<StudentCourse>();
-
 		public static void Greet()
 		{
 			Console.WriteLine("Welcome to School Manager 2019");
@@ -26,6 +24,8 @@ namespace Assignment1
 
 		public static int ShowMenuAndChoose()
 		{
+			Console.WriteLine("MAIN OPTIONS");
+
 			Console.WriteLine("1. Input students");
 			Console.WriteLine("2. Show all students");
 
@@ -38,7 +38,7 @@ namespace Assignment1
 			Console.WriteLine("7. Input courses");
 			Console.WriteLine("8. Show all courses");
 
-			Console.WriteLine("9. Connect student with course");
+			Console.WriteLine("9. Manage connections");
 
 			Console.WriteLine("0. Exit");
 
@@ -52,8 +52,6 @@ namespace Assignment1
 
 			Console.WriteLine();
 			return choice;
-
-
 		}
 
 		private static string ManualOrAuto(string element)
@@ -71,9 +69,50 @@ namespace Assignment1
 			return option;
 		}
 
+		public static void DoMainAction(MenuOptions MainOption)
+		{
+			ConnectionMenuOptions ConnectOption;
+			int choice;
+
+			switch (MainOption)
+			{
+				case MenuOptions.InputStudents:
+					InputStudents();
+					break;
+				case MenuOptions.ShowStudents:
+					ShowStudents(true);
+					break;
+				case MenuOptions.InputTrainers:
+					InputTrainers();
+					break;
+				case MenuOptions.ShowTrainers:
+					ShowTrainers(true);
+					break;
+				case MenuOptions.InputAssignments:
+					InputAssignments();
+					break;
+				case MenuOptions.ShowAssignments:
+					ShowAssignments(true);
+					break;
+				case MenuOptions.InputCourses:
+					InputCourses();
+					break;
+				case MenuOptions.ShowCourses:
+					ShowCourses(true);
+					break;
+				case MenuOptions.ManageConnections:
+					choice = ShowConnectionsMenu();
+					ConnectOption = (ConnectionMenuOptions)choice;
+					DoConnectionAction(ConnectOption);
+					break;
+				default:
+					break;
+			}
+		}
+
 		//students
 
-		public static void InputStudents()
+		private static void InputStudents()
 		{
 			string option = SchoolUI.ManualOrAuto("students");
 
@@ -87,7 +126,7 @@ namespace Assignment1
 			}
 		}
 
-		public static void ShowStudents(bool inFull)
+		private static void ShowStudents(bool inFull)
 		{
 			if (StudentList.Count < 1)
 			{
@@ -215,7 +254,7 @@ namespace Assignment1
 
 		//trainers
 
-		public static void InputTrainers()
+		private static void InputTrainers()
 		{
 			string option = SchoolUI.ManualOrAuto("trainers");
 
@@ -229,7 +268,7 @@ namespace Assignment1
 			}
 		}
 
-		public static void ShowTrainers(bool inFull)
+		private static void ShowTrainers(bool inFull)
 		{
 			if (TrainerList.Count < 1)
 			{
@@ -304,7 +343,7 @@ namespace Assignment1
 			{
 				Console.WriteLine("type a new trainer");
 				Console.WriteLine("firstName-lastName-Subject");
-				Console.WriteLine("to quit type \"exit\" and hit Enter");
+				Console.WriteLine("to quit type 'exit' and hit Enter");
 				string input = Console.ReadLine();
 				string[] items = input.Split('-');
 				choice = items[0];
@@ -329,7 +368,7 @@ namespace Assignment1
 
 		//assignments
 
-		public static void InputAssignments()
+		private static void InputAssignments()
 		{
 			string option = SchoolUI.ManualOrAuto("assignments");
 
@@ -343,7 +382,7 @@ namespace Assignment1
 			}
 		}
 
-		public static void ShowAssignments(bool inFull)
+		private static void ShowAssignments(bool inFull)
 		{
 			if (AssignmentList.Count < 1)
 			{
@@ -459,7 +498,7 @@ namespace Assignment1
 
 		//courses
 
-		public static void InputCourses() {
+		private static void InputCourses() {
 			string option = SchoolUI.ManualOrAuto("courses");
 
 			if (option.Equals("a") || option.Equals("A"))
@@ -472,7 +511,7 @@ namespace Assignment1
 			}
 		}
 
-		public static void ShowCourses(bool inFull)
+		private static void ShowCourses(bool inFull)
 		{
 			if (CourseList.Count < 1)
 			{
@@ -605,23 +644,144 @@ namespace Assignment1
 
 		//connections
 
-		public static void ShowConnectionsMenu()
+		private static int ShowConnectionsMenu()
 		{
+			Console.WriteLine("CONNECT OPTIONS");
 
+			Console.WriteLine("1. Connect students with courses");
+			Console.WriteLine("2. Show all students-courses connections");
+
+			Console.WriteLine("3. Connect trainers with courses");
+			Console.WriteLine("4. Show all trainers-courses connections");
+
+			Console.WriteLine("5. Connect assignments with courses");
+			Console.WriteLine("6. Show all assignments-courses connections");
+
+			Console.WriteLine("7. Connect assignments with students");
+			Console.WriteLine("8. Show all assignments-students connections");
+
+			Console.WriteLine("9. Show students with more than one course");
+
+			Console.WriteLine("0. Exit to basic menu");
+
+			bool goodChoice;
+			int choice;
+			do
+			{
+				string input = Console.ReadLine();
+				goodChoice = Int32.TryParse(input, out choice);
+			} while (!goodChoice || choice < 0 || choice > 9);
+
+			Console.WriteLine();
+			return choice;
 		}
 
-		// student course
-		public static void ShowStudentCourses()
+		private static void DoConnectionAction(ConnectionMenuOptions ConnectionOption)
 		{
-			Console.WriteLine("List of students:\n");
+			switch (ConnectionOption)
+			{
+				case ConnectionMenuOptions.ConnectStudentsCourses:
+					ConnectStudentsCourses();
+					break;
+				case ConnectionMenuOptions.ShowStudentsCourses:
+					ShowStudentCourses();
+					break;
+				case ConnectionMenuOptions.ConnectTrainersCourses:
+					break;
+				case ConnectionMenuOptions.ShowTrainersCourses:
+					break;
+				case ConnectionMenuOptions.ConnectAssignmentsCourses:
+					break;
+				case ConnectionMenuOptions.ShowAssignmentsCourses:
+					break;
+				case ConnectionMenuOptions.ConnectAssignmentsStudents:
+					break;
+				case ConnectionMenuOptions.ShowAssignmentsStudents:
+					break;
+				case ConnectionMenuOptions.ShowStudentsManyCourses:
+					break;
+				default:
+					break;
+			}
+		}
+
+		// students courses
+
+		private static void ConnectStudentsCourses()
+		{
+			if (StudentList.Count == 0 || CourseList.Count == 0)
+			{
+				Console.WriteLine("students or courses do not exist\n");
+				return;
+			}
+
+			Console.WriteLine("All students:\n");
 
 			ShowStudents(false);
 
-			Console.WriteLine("List of courses:\n");
+			Console.WriteLine("All courses:\n");
 
 			ShowCourses(false);
 
+			string input;
+			bool correctInput;
 
+			do
+			{
+				Console.WriteLine("type the number of student and course you want to connect, using -");
+				Console.WriteLine("for example type '1-2' to connect the first student with the second course");
+				Console.WriteLine("type '0' to leave\n");
+
+				input = Console.ReadLine();
+				if (input.Equals("0"))
+				{
+					break;
+				}
+				else if (input.Trim().Equals(""))
+				{
+					continue;
+				}
+				string[] items = input.Split('-');
+
+				string StudentInput = items[0];
+				correctInput = Int32.TryParse(StudentInput, out int StudentCode);
+				if (!correctInput)
+				{
+					Console.WriteLine("wrong student attribute\n");
+					continue;
+				}
+
+				string CourseInput = items[1];
+				correctInput = Int32.TryParse(CourseInput, out int CourseCode);
+				if (!correctInput)
+				{
+					Console.WriteLine("wrong course attribute\n");
+					continue;
+				}
+
+				StudentList[StudentCode - 1].CourseCodes.Add(CourseCode - 1);
+				CourseList[CourseCode - 1].StudentCodes.Add(StudentCode - 1);
+
+				Console.WriteLine($"you connected student {StudentCode}: {StudentList[StudentCode - 1].LastName} with course {CourseCode}: {CourseList[CourseCode - 1].Title}\n");
+
+
+
+			} while (!input.Equals("0"));
+
+		}
+
+		private static void ShowStudentCourses()
+		{
+			foreach (Course c in CourseList)
+			{
+				Console.WriteLine($"Course: {c.Title}");
+
+				foreach (int studentCode in c.StudentCodes)
+				{
+					Console.WriteLine($"{StudentList[studentCode].LastName}");
+				}
+				Console.WriteLine();
+			}
 		}
 	}
 }
