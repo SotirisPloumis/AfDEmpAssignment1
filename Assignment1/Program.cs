@@ -12,92 +12,48 @@ namespace Assignment1
 		{
 			SchoolUI.Greet();
 
-			string option;
+			int choice;
+			MenuOptions UserOption;
 
-
-			//step 1: save students
-
-			option = SchoolUI.ManualOrAuto("students");
-
-			List<Student> StudentList = new List<Student>();
-
-			if (option.Equals("a")|| option.Equals("A"))
+			do
 			{
-				SchoolUI.AutoFillStudents(StudentList);
-			}
-			else
-			{
-				SchoolUI.ManualFillStudents(StudentList);
-			}
+				choice = SchoolUI.ShowMenuAndChoose();
+				UserOption = (MenuOptions)choice;
 
-			foreach(Student s in StudentList)
-			{
-				Console.WriteLine($"{s.FirstName} {s.LastName}, born in {s.DateOfBirth}, pays: {s.TuitionFess}");
-			}
-			Console.WriteLine("\n");
+				switch (UserOption)
+				{
+					case MenuOptions.InputStudents:
+						SchoolUI.InputStudents();
+						break;
+					case MenuOptions.ShowStudents:
+						SchoolUI.ShowStudents(true);
+						break;
+					case MenuOptions.InputTrainers:
+						SchoolUI.InputTrainers();
+						break;
+					case MenuOptions.ShowTrainers:
+						SchoolUI.ShowTrainers(true);
+						break;
+					case MenuOptions.InputAssignments:
+						SchoolUI.InputAssignments();
+						break;
+					case MenuOptions.ShowAssignments:
+						SchoolUI.ShowAssignments(true);
+						break;
+					case MenuOptions.InputCourses:
+						SchoolUI.InputCourses();
+						break;
+					case MenuOptions.ShowCourses:
+						SchoolUI.ShowCourses(true);
+						break;
+					case MenuOptions.ConnectStudentCourse:
+						SchoolUI.ShowStudentCourses();
+						break;
+					default:
+						break;
+				}
 
-			//step 2: save trainers
-			option = SchoolUI.ManualOrAuto("trainers");
-
-			List<Trainer> TrainerList = new List<Trainer>();
-
-			if (option.Equals("a") || option.Equals("A"))
-			{
-				SchoolUI.AutoFillTrainers(TrainerList);
-			}
-			else
-			{
-				SchoolUI.ManualFillTrainers(TrainerList);
-			}
-
-			foreach (Trainer t in TrainerList)
-			{
-				Console.WriteLine($"{t.FirstName} {t.LastName}, teaches {t.Subject}");
-			}
-			Console.WriteLine("\n");
-
-			//step 3: save assignments
-			option = SchoolUI.ManualOrAuto("assignments");
-			
-			List<Assignment> AssignmentList = new List<Assignment>();
-
-			if (option.Equals("a") || option.Equals("A"))
-			{
-				SchoolUI.AutoFillAssignments(AssignmentList);
-			}
-			else
-			{
-				SchoolUI.ManualFillAssignments(AssignmentList);
-			}
-
-			foreach (Assignment a in AssignmentList)
-			{
-				Console.WriteLine($"Title: {a.Title}, Desciption: {a.Description}, due {a.SubmissionDateAndTime}");
-			}
-
-			Console.WriteLine("\n");
-
-			//step 4: save courses
-			option = SchoolUI.ManualOrAuto("courses");
-
-			List<Course> CourseList = new List<Course>();
-
-			if (option.Equals("a") || option.Equals("A"))
-			{
-				SchoolUI.AutoFillCourses(CourseList);
-			}
-			else
-			{
-				SchoolUI.ManualFillCourses(CourseList);
-			}
-
-			foreach (Course c in CourseList)
-			{
-				Console.WriteLine($"Title: {c.Title}, Stream: {c.Stream}, type: {c.Type}, starts {c.StartDate}, ends {c.EndDate}");
-			}
-
-			Console.WriteLine("\n");
-
+			} while (MenuOptions.Exit != UserOption);
 		}
 
 	}
