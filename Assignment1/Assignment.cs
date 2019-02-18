@@ -13,9 +13,5 @@ namespace Assignment1
 		public string Description { get; set; }
 
 		public DateTime SubmissionDateAndTime { get; set; }
-
-		public double OralMark { get; set; }
-
-		public double TotalMark { get; set; }
 	}
 }

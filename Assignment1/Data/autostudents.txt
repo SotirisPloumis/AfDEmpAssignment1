@@ -1,4 +1,4 @@
-sotos,ploumis,1993,4,6,4339.45
-kostas,papadopoulos,1992,2,9,1999.90
-takis,tasou,1994,5,12,10000.01
-giannis,gianou,1990,12,25,2345.67
+sotos-ploumis-6/4/1993-4339.45
+kostas-papadopoulos-9/2/1990-1999.90
+takis-tasou-12/5/1991-10000.01
+giannis-gianou-25/12/1990-2345.67

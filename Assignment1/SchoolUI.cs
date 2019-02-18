@@ -26,7 +26,7 @@ namespace Assignment1
 
 				option = Console.ReadLine();
 
-			} while (!option.Equals("m") && !option.Equals("a"));
+			} while (!option.Equals("m") && !option.Equals("a") && !option.Equals("A") && !option.Equals("M"));
 
 			return option;
 		}
@@ -42,38 +42,27 @@ namespace Assignment1
 			foreach(string line in allStudents)
 			{
 				bool correct;
-				string[] items = line.Split(',');
+				string[] items = line.Split('-');
 				string fname = items[0];
 				string lname = items[1];
-				correct = Int32.TryParse(items[2],out int year);
+				correct = DateTime.TryParse(items[2], out DateTime dob);
 				if (!correct)
 				{
-					Console.WriteLine("the year is not a number, defaulting to 0");
-					year = 0;
+					Console.WriteLine("the date of birth is not correct, skipping line");
+					continue;
 				}
-				correct = Int32.TryParse(items[3], out int month);
+				
+				correct = Double.TryParse(items[3], NumberStyles.Any, CultureInfo.InvariantCulture, out double fees);
 				if (!correct)
 				{
-					Console.WriteLine("the month is not a number, defaulting to 0");
-					month = 0;
-				}
-				correct = Int32.TryParse(items[4], out int day);
-				if (!correct)
-				{
-					Console.WriteLine("the day is not a number, defaulting to 0");
-					day = 0;
-				}
-				correct = Double.TryParse(items[5], NumberStyles.Any, CultureInfo.InvariantCulture, out double fees);
-				if (!correct)
-				{
-					Console.WriteLine("The fees are not a number, defaulting to 0");
-					fees = 0;
+					Console.WriteLine("The fees are not a number, skipping line");
+					continue;
 				}
 				Student s = new Student()
 				{
 					FirstName = fname,
 					LastName = lname,
-					DateOfBirth = new DateTime(year, month, day),
+					DateOfBirth = dob,
 					TuitionFess = fees
 				};
 
@@ -84,16 +73,247 @@ namespace Assignment1
 
 		public static void ManualFillStudents(List<Student> studentList)
 		{
-
-			Student s = new Student()
+			Student s;
+			string choice = "";
+			while (!choice.Equals("exit"))
 			{
-				FirstName = Console.ReadLine(),
-				LastName = Console.ReadLine(),
-				DateOfBirth = new DateTime(1950, 5, 4),
-				TuitionFess = 4444.3
-			};
+				Console.WriteLine("type a new student");
+				Console.WriteLine("firstName-lastName-dayOfBirth/monthOfBirth/yearOfBirth-tuition");
+				Console.WriteLine("to quit type \"exit\" and hit Enter");
+				string input = Console.ReadLine();
+				string[] items = input.Split('-');
+				choice = items[0];
+				if (choice.Equals("exit"))
+				{
+					break;
+				}
+				string fname = items[0];
+				string lname = items[1];
+				bool correct = DateTime.TryParse(items[2], out DateTime dob);
+				if (!correct)
+				{
+					Console.WriteLine("Date of birth is not correct");
+					continue;
+				}
+				
+				correct = Double.TryParse(items[3], NumberStyles.Any, CultureInfo.InvariantCulture, out double tuition);
+				if (!correct)
+				{
+					Console.WriteLine("fees are not a valid number");
+					continue;
+				}
+				s = new Student()
+				{
+					FirstName = fname,
+					LastName = lname,
+					DateOfBirth = dob,
+					TuitionFess = tuition
+				};
 
-			studentList.Add(s);
+				studentList.Add(s);
+			}
+
+			
+		}
+
+		public static void AutoFillTrainers(List<Trainer> trainerList)
+		{
+			string current = Directory.GetCurrentDirectory();
+
+			string path = Path.Combine(current, @"..\..\Data\autotrainers.txt");
+
+			string[] allTrainerss = File.ReadAllLines(path);
+
+			foreach (string line in allTrainerss)
+			{
+				string[] items = line.Split('-');
+				string fname = items[0];
+				string lname = items[1];
+				string subject = items[2];
+				
+				Trainer t = new Trainer()
+				{
+
+					FirstName = fname,
+					LastName = lname,
+					Subject = subject
+				};
+
+				trainerList.Add(t);
+
+			}
+		}
+
+		public static void ManualFillTrainers(List<Trainer> trainerList)
+		{
+			Trainer t;
+			string choice = "";
+			while (!choice.Equals("exit"))
+			{
+				Console.WriteLine("type a new trainer");
+				Console.WriteLine("firstName-lastName-Subject");
+				Console.WriteLine("to quit type \"exit\" and hit Enter");
+				string input = Console.ReadLine();
+				string[] items = input.Split('-');
+				choice = items[0];
+				if (choice.Equals("exit"))
+				{
+					break;
+				}
+				string fname = items[0];
+				string lname = items[1];
+				string subject = items[2];
+
+				t = new Trainer()
+				{
+					FirstName = fname,
+					LastName = lname,
+					Subject = subject
+				};
+
+				trainerList.Add(t);
+			}
+		}
+
+		public static void AutoFillAssignments(List<Assignment> assignmentList)
+		{
+			string current = Directory.GetCurrentDirectory();
+
+			string path = Path.Combine(current, @"..\..\Data\autoassignments.txt");
+
+			string[] allAssignments = File.ReadAllLines(path);
+
+			foreach (string line in allAssignments)
+			{
+				string[] items = line.Split('-');
+				string title = items[0];
+				string description = items[1];
+				bool correct = Int32.TryParse(items[2], out int year);
+				if (!correct)
+				{
+					Console.WriteLine("year is not a valid number, skipping line");
+					continue;
+				}
+				correct = Int32.TryParse(items[3], out int month);
+				if (!correct)
+				{
+					Console.WriteLine("month is not a valid number, skipping line");
+					continue;
+				}
+				correct = Int32.TryParse(items[4], out int day);
+				if (!correct)
+				{
+					Console.WriteLine("day is not a valid number, skipping line");
+					continue;
+				}
+
+				Assignment a = new Assignment()
+				{
+
+					Title = title,
+					Description = description,
+					SubmissionDateAndTime = new DateTime(year, month, day)
+				};
+
+				assignmentList.Add(a);
+
+			}
+		}
+		
+		public static void ManualFillAssignments(List<Assignment> assignmentList)
+		{
+			Assignment a;
+			string choice = "";
+			while (!choice.Equals("exit"))
+			{
+				Console.WriteLine("type a new assignment");
+				Console.WriteLine("Title-description-Year-Month-Day-Oral Mark- Total Mark");
+				Console.WriteLine("to quit type \"exit\" and hit Enter");
+				string input = Console.ReadLine();
+				string[] items = input.Split('-');
+				choice = items[0];
+				if (choice.Equals("exit"))
+				{
+					break;
+				}
+				string title = items[0];
+				string description = items[1];
+				bool correct = Int32.TryParse(items[2], out int year);
+				if (!correct)
+				{
+					Console.WriteLine("year is not a valid number, skipping line");
+					continue;
+				}
+				correct = Int32.TryParse(items[3], out int month);
+				if (!correct)
+				{
+					Console.WriteLine("month is not a valid number, skipping line");
+					continue;
+				}
+				correct = Int32.TryParse(items[4], out int day);
+				if (!correct)
+				{
+					Console.WriteLine("day is not a valid number, skipping line");
+					continue;
+				}
+
+				a = new Assignment()
+				{
+					Title = title,
+					Description = description,
+					SubmissionDateAndTime = new DateTime(year, month, day)
+				};
+
+				assignmentList.Add(a);
+			}
+		}
+
+		public static void AutoFillCourses(List<Course> courseList)
+		{
+			string current = Directory.GetCurrentDirectory();
+
+			string path = Path.Combine(current, @"..\..\Data\autocourses.txt");
+
+			string[] allCourses = File.ReadAllLines(path);
+
+			foreach (string line in allCourses)
+			{
+				string[] items = line.Split('-');
+				string title = items[0];
+				string stream = items[1];
+				string type = items[2];
+				bool correct = DateTime.TryParse(items[3], out DateTime startDate);
+				if (!correct)
+				{
+					Console.WriteLine("start date is not correct, skipping line");
+					continue;
+				}
+				correct = DateTime.TryParse(items[4], out DateTime endDate);
+				if (!correct)
+				{
+					Console.WriteLine("end date is not correct, skipping line");
+					continue;
+				}
+				
+
+				Course c = new Course()
+				{
+
+					Title = title,
+					Stream = stream,
+					Type = type,
+					StartDate = startDate,
+					EndDate = endDate
+				};
+
+				courseList.Add(c);
+
+			}
+		}
+
+		public static void ManualFillCourses(List<Course> courseList)
+		{
+
 		}
 	}
 }
