@@ -17,6 +17,7 @@ namespace Assignment1
 		ShowAssignments = 6,
 		InputCourses = 7,
 		ShowCourses = 8,
-		ManageConnections = 9
+		ManageConnections = 9,
+		CheckDateForSubmissions = 10
 	}
 }

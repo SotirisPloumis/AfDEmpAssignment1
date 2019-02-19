@@ -40,6 +40,8 @@ namespace Assignment1
 
 			Console.WriteLine("9. Manage connections");
 
+			Console.WriteLine("10. Check date for submissions");
+
 			Console.WriteLine("0. Exit");
 
 			bool goodChoice;
@@ -48,7 +50,7 @@ namespace Assignment1
 			{
 				string input = Console.ReadLine();
 				goodChoice = Int32.TryParse(input, out choice);
-			} while (!goodChoice || choice < 0 || choice > 9);
+			} while (!goodChoice || choice < 0 || choice > 10);
 
 			Console.WriteLine();
 			return choice;
@@ -71,9 +73,6 @@ namespace Assignment1
 
 		public static void DoMainAction(MenuOptions MainOption)
 		{
-			ConnectionMenuOptions ConnectOption;
-			int choice;
-
 			switch (MainOption)
 			{
 				case MenuOptions.InputStudents:
@@ -101,9 +100,22 @@ namespace Assignment1
 					ShowCourses(true);
 					break;
 				case MenuOptions.ManageConnections:
-					choice = ShowConnectionsMenu();
-					ConnectOption = (ConnectionMenuOptions)choice;
-					DoConnectionAction(ConnectOption);
+					int ConnectChoice;
+					ConnectionMenuOptions connectOption;
+
+					do
+					{
+						ConnectChoice = ShowConnectionsMenuAndChoose();
+
+						connectOption = (ConnectionMenuOptions)ConnectChoice;
+
+						DoConnectionAction(connectOption);
+
+					} while (connectOption != ConnectionMenuOptions.Exit);
+
+					break;
+				case MenuOptions.CheckDateForSubmissions:
+					CheckDateForSubmissions();
 					break;
 				default:
 					break;
@@ -133,6 +145,9 @@ namespace Assignment1
 				Console.WriteLine("No students yet\n");
 				return;
 			}
+
+			Console.WriteLine("STUDENTS");
+
 			foreach (Student s in StudentList)
 			{
 				if (inFull)
@@ -275,6 +290,9 @@ namespace Assignment1
 				Console.WriteLine("No trainers yet\n");
 				return;
 			}
+
+			Console.WriteLine("TRAINERS");
+
 			foreach (Trainer t in TrainerList)
 			{
 				if (inFull)
@@ -389,6 +407,8 @@ namespace Assignment1
 				Console.WriteLine("No assignments yet\n");
 				return;
 			}
+
+			Console.WriteLine("ASSIGNMENTS");
 
 			foreach (Assignment a in AssignmentList)
 			{
@@ -519,6 +539,8 @@ namespace Assignment1
 				return;
 			}
 
+			Console.WriteLine("COURSES");
+
 			foreach (Course c in CourseList)
 			{
 				if (inFull)
@@ -644,7 +666,7 @@ namespace Assignment1
 
 		//connections
 
-		private static int ShowConnectionsMenu()
+		private static int ShowConnectionsMenuAndChoose()
 		{
 			Console.WriteLine("CONNECT OPTIONS");
 
@@ -673,6 +695,7 @@ namespace Assignment1
 			} while (!goodChoice || choice < 0 || choice > 9);
 
 			Console.WriteLine();
+
 			return choice;
 		}
 
@@ -705,6 +728,7 @@ namespace Assignment1
 					ShowAssignmentsStudents();
 					break;
 				case ConnectionMenuOptions.ShowStudentsManyCourses:
+					ShowStudentsManyCourses();
 					break;
 				default:
 					break;
@@ -788,6 +812,20 @@ namespace Assignment1
 				}
 				Console.WriteLine();
 			}
+		}
+
+		private static void ShowStudentsManyCourses()
+		{
+			Console.WriteLine("print students with more than one course\n");
+
+			foreach (Student s in StudentList)
+			{
+				if (s.CourseCodes.Count > 1)
+				{
+					Console.WriteLine($"{StudentList.IndexOf(s)}: {s.FirstName} {s.LastName}");
+				}
+			}
+			Console.WriteLine();
 		}
 
 		// trainers courses
@@ -950,13 +988,192 @@ namespace Assignment1
 
 		private static void ConnectAssignmentsStudents()
 		{
+			if (AssignmentList.Count == 0)
+			{
+				Console.WriteLine("assignments do not exist\n");
+				return;
+			}
+			else if (CourseList.Count == 0)
+			{
+				Console.WriteLine("courses do not exist\n");
+				return;
+			}
+			else if (StudentList.Count == 0)
+			{
+				Console.WriteLine("students do not exist\n");
+				return;
+			}
 
+			Console.WriteLine("All assignments:\n");
+
+			ShowAssignments(false);
+
+			Console.WriteLine("All courses:\n");
+
+			ShowCourses(false);
+
+			Console.WriteLine("All students:\n");
+
+			ShowStudents(false);
+
+			string input;
+			bool correctInput;
+
+			do
+			{
+				Console.WriteLine("type the number of assignment,course and student you want to connect, using -");
+				Console.WriteLine("for example type '1-2-3' to connect the first assignment with the second course for the third student");
+				Console.WriteLine("student and assignment must already be connected to course");
+				Console.WriteLine("type '0' to leave\n");
+
+				input = Console.ReadLine();
+				if (input.Trim().Equals("0"))
+				{
+					break;
+				}
+				else if (input.Trim().Equals(""))
+				{
+					continue;
+				}
+				string[] items = input.Split('-');
+
+				string AssignmentInput = items[0];
+				correctInput = Int32.TryParse(AssignmentInput, out int AssignmentCode);
+				if (!correctInput)
+				{
+					Console.WriteLine("wrong assignment attribute\n");
+					continue;
+				}
+
+				string CourseInput = items[1];
+				correctInput = Int32.TryParse(CourseInput, out int CourseCode);
+				if (!correctInput)
+				{
+					Console.WriteLine("wrong course attribute\n");
+					continue;
+				}
+
+				string StudentInput = items[2];
+				correctInput = Int32.TryParse(StudentInput, out int StudentCode);
+				if (!correctInput)
+				{
+					Console.WriteLine("wrong student attribute\n");
+					continue;
+				}
+
+				//check codes are correct
+
+				if (CourseCode > CourseList.Count)
+				{
+					Console.WriteLine("course doesn't exist");
+					return;
+				}
+				else if (AssignmentCode > AssignmentList.Count)
+				{
+					Console.WriteLine("assignment doesn't exist");
+					return;
+				}
+				else if (StudentCode > StudentList.Count)
+				{
+					Console.WriteLine("student doesn't exist");
+					return;
+				}
+
+				
+				Course c = CourseList[CourseCode - 1];
+				Assignment a = AssignmentList[AssignmentCode - 1];
+				Student s = StudentList[StudentCode - 1];
+
+				//check course has assignment
+
+				bool CourseHasAssignment = c.AssignmentCodes.Contains(AssignmentCode - 1);
+				if (!CourseHasAssignment)
+				{
+					Console.WriteLine($"Course '{c.Title}' doesn't have assignment '{a.Title}'");
+					return;
+				}
+
+				//check assignment has course
+
+				bool AssignmentHasCourse = a.CourseCodes.Contains(CourseCode - 1);
+				if (!AssignmentHasCourse)
+				{
+					Console.WriteLine($"Assignment '{c.Title}' doesn't belong to course '{c.Title}'");
+					return;
+				}
+
+				//check course has student
+
+				bool CourseHasStudent = c.StudentCodes.Contains(StudentCode - 1);
+				if (!CourseHasStudent)
+				{
+					Console.WriteLine($"Course '{c.Title}' doesn't have student '{s.LastName}'");
+					return;
+				}
+
+				//check student has course
+
+				bool StudentHasCourse = s.CourseCodes.Contains(CourseCode - 1);
+				if (!StudentHasCourse)
+				{
+					Console.WriteLine($"Student '{s.LastName}' doesn't belong to course '{c.Title}'");
+					return;
+				}
+
+				//add them
+
+				s.AssignmentCodes.Add(AssignmentCode - 1);
+				a.StudentCodes.Add(StudentCode - 1);
+
+				Console.Write($"you connected assignment {AssignmentCode}: '{a.Title}'");
+				Console.WriteLine($"with course {CourseCode}: '{c.Title}'");
+				Console.WriteLine($" for student {StudentCode}: '{s.FirstName} {s.LastName}'");
+
+
+			} while (!input.Equals("0"));
 		}
 
 		private static void ShowAssignmentsStudents()
 		{
+			foreach (Student s in StudentList)
+			{
+				Console.WriteLine($"Student: {s.FirstName} {s.LastName}:");
+
+				foreach (int assignmentCode in s.AssignmentCodes)
+				{
+					Console.WriteLine($"{AssignmentList[assignmentCode].Title}");
+				}
+				Console.WriteLine();
+			}
 
 		}
 
+		// check date for submissions
+
+		private static void CheckDateForSubmissions()
+		{
+			Console.WriteLine("input a date to check for submissions (day/month/year)");
+			Console.WriteLine("to quit type '0'\n");
+
+			bool goodDate;
+			DateTime date;
+
+			do
+			{
+				string dateInput = Console.ReadLine();
+				if (dateInput.Equals("0"))
+				{
+					return;
+				}
+
+
+				goodDate = DateTime.TryParse(dateInput, out date);
+
+			} while (!goodDate);
+			Console.WriteLine($"day is {date.DayOfWeek}");
+
+
+			Console.WriteLine();
+		}
 	}
 }
