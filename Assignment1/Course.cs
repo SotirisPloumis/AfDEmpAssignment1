@@ -20,9 +20,15 @@ namespace Assignment1
 
 		public List<int> StudentCodes { get; set; }
 
+		public List<int> TrainerCodes { get; set; }
+
+		public List<int> AssignmentCodes { get; set; }
+
 		public Course()
 		{
 			StudentCodes = new List<int>();
+			TrainerCodes = new List<int>();
+			AssignmentCodes = new List<int>();
 		}
 	}
 }

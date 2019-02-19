@@ -14,5 +14,12 @@ namespace Assignment1
 		public string LastName { get; set; }
 
 		public string Subject { get; set; }
+
+		public List<int> CourseCodes { get; set; }
+
+		public Trainer()
+		{
+			CourseCodes = new List<int>();
+		}
 	}
 }

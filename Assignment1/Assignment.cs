@@ -13,5 +13,12 @@ namespace Assignment1
 		public string Description { get; set; }
 
 		public DateTime SubmissionDateAndTime { get; set; }
+
+		public List<int> CourseCodes { get; set; }
+
+		public Assignment()
+		{
+			CourseCodes = new List<int>();
+		}
 	}
 }

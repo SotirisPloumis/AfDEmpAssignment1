@@ -687,16 +687,22 @@ namespace Assignment1
 					ShowStudentCourses();
 					break;
 				case ConnectionMenuOptions.ConnectTrainersCourses:
+					ConnectTrainersCourses();
 					break;
 				case ConnectionMenuOptions.ShowTrainersCourses:
+					ShowTrainersCourses();
 					break;
 				case ConnectionMenuOptions.ConnectAssignmentsCourses:
+					ConnectAssignmentsCourses();
 					break;
 				case ConnectionMenuOptions.ShowAssignmentsCourses:
+					ShowAssignmentsCourses();
 					break;
 				case ConnectionMenuOptions.ConnectAssignmentsStudents:
+					ConnectAssignmentsStudents();
 					break;
 				case ConnectionMenuOptions.ShowAssignmentsStudents:
+					ShowAssignmentsStudents();
 					break;
 				case ConnectionMenuOptions.ShowStudentsManyCourses:
 					break;
@@ -733,7 +739,7 @@ namespace Assignment1
 				Console.WriteLine("type '0' to leave\n");
 
 				input = Console.ReadLine();
-				if (input.Equals("0"))
+				if (input.Trim().Equals("0"))
 				{
 					break;
 				}
@@ -783,5 +789,174 @@ namespace Assignment1
 				Console.WriteLine();
 			}
 		}
+
+		// trainers courses
+
+		private static void ConnectTrainersCourses()
+		{
+			if (TrainerList.Count == 0 || CourseList.Count == 0)
+			{
+				Console.WriteLine("trainers or courses do not exist\n");
+				return;
+			}
+
+			Console.WriteLine("All trainers:\n");
+
+			ShowTrainers(false);
+
+			Console.WriteLine("All courses:\n");
+
+			ShowCourses(false);
+
+			string input;
+			bool correctInput;
+
+			do
+			{
+				Console.WriteLine("type the number of trainer and course you want to connect, using -");
+				Console.WriteLine("for example type '1-2' to connect the first trainer with the second course");
+				Console.WriteLine("type '0' to leave\n");
+
+				input = Console.ReadLine();
+				if (input.Trim().Equals("0"))
+				{
+					break;
+				}
+				else if (input.Trim().Equals(""))
+				{
+					continue;
+				}
+				string[] items = input.Split('-');
+
+				string TrainerInput = items[0];
+				correctInput = Int32.TryParse(TrainerInput, out int TrainerCode);
+				if (!correctInput)
+				{
+					Console.WriteLine("wrong trainer attribute\n");
+					continue;
+				}
+
+				string CourseInput = items[1];
+				correctInput = Int32.TryParse(CourseInput, out int CourseCode);
+				if (!correctInput)
+				{
+					Console.WriteLine("wrong course attribute\n");
+					continue;
+				}
+
+				TrainerList[TrainerCode - 1].CourseCodes.Add(CourseCode - 1);
+				CourseList[CourseCode - 1].TrainerCodes.Add(TrainerCode - 1);
+
+				Console.WriteLine($"you connected trainer {TrainerCode}: {TrainerList[TrainerCode - 1].LastName} with course {CourseCode}: {CourseList[CourseCode - 1].Title}\n");
+
+
+
+			} while (!input.Equals("0"));
+		}
+
+		private static void ShowTrainersCourses()
+		{
+			foreach (Course c in CourseList)
+			{
+				Console.WriteLine($"Course: {c.Title}");
+
+				foreach (int trainerCode in c.TrainerCodes)
+				{
+					Console.WriteLine($"{TrainerList[trainerCode].LastName}");
+				}
+				Console.WriteLine();
+			}
+		}
+
+		// assignments courses
+
+		private static void ConnectAssignmentsCourses()
+		{
+			if (AssignmentList.Count == 0 || CourseList.Count == 0)
+			{
+				Console.WriteLine("assignments or courses do not exist\n");
+				return;
+			}
+
+			Console.WriteLine("All assignments:\n");
+
+			ShowAssignments(false);
+
+			Console.WriteLine("All courses:\n");
+
+			ShowCourses(false);
+
+			string input;
+			bool correctInput;
+
+			do
+			{
+				Console.WriteLine("type the number of assignment and course you want to connect, using -");
+				Console.WriteLine("for example type '1-2' to connect the first assignment with the second course");
+				Console.WriteLine("type '0' to leave\n");
+
+				input = Console.ReadLine();
+				if (input.Trim().Equals("0"))
+				{
+					break;
+				}
+				else if (input.Trim().Equals(""))
+				{
+					continue;
+				}
+				string[] items = input.Split('-');
+
+				string AssignmentInput = items[0];
+				correctInput = Int32.TryParse(AssignmentInput, out int AssignmentCode);
+				if (!correctInput)
+				{
+					Console.WriteLine("wrong assignment attribute\n");
+					continue;
+				}
+
+				string CourseInput = items[1];
+				correctInput = Int32.TryParse(CourseInput, out int CourseCode);
+				if (!correctInput)
+				{
+					Console.WriteLine("wrong course attribute\n");
+					continue;
+				}
+
+				AssignmentList[AssignmentCode - 1].CourseCodes.Add(CourseCode - 1);
+				CourseList[CourseCode - 1].AssignmentCodes.Add(AssignmentCode - 1);
+
+				Console.WriteLine($"you connected assignment {AssignmentCode}: {AssignmentList[AssignmentCode - 1].Title} with course {CourseCode}: {CourseList[CourseCode - 1].Title}\n");
+
+
+
+			} while (!input.Equals("0"));
+		}
+
+		private static void ShowAssignmentsCourses()
+		{
+			foreach (Course c in CourseList)
+			{
+				Console.WriteLine($"Course: {c.Title}");
+
+				foreach (int assignmentCode in c.AssignmentCodes)
+				{
+					Console.WriteLine($"{AssignmentList[assignmentCode].Title}");
+				}
+				Console.WriteLine();
+			}
+		}
+
+		// assignments student
+
+		private static void ConnectAssignmentsStudents()
+		{
+
+		}
+
+		private static void ShowAssignmentsStudents()
+		{
+
+		}
+
 	}
 }
