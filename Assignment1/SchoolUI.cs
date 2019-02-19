@@ -120,6 +120,8 @@ namespace Assignment1
 				default:
 					break;
 			}
+
+			Console.ReadKey();
 		}
 
 		//students
@@ -733,6 +735,7 @@ namespace Assignment1
 				default:
 					break;
 			}
+			Console.ReadKey();
 		}
 
 		// students courses
@@ -816,15 +819,27 @@ namespace Assignment1
 
 		private static void ShowStudentsManyCourses()
 		{
-			Console.WriteLine("print students with more than one course\n");
+			Console.WriteLine("List of students with more than one courses\n");
+
+			List<string> result = new List<string>();
 
 			foreach (Student s in StudentList)
 			{
 				if (s.CourseCodes.Count > 1)
 				{
-					Console.WriteLine($"{StudentList.IndexOf(s)}: {s.FirstName} {s.LastName}");
+					result.Add($"{StudentList.IndexOf(s)}: {s.FirstName} {s.LastName}");
 				}
 			}
+			if (result.Count < 1)
+			{
+				Console.WriteLine("no students with these critria found\n");
+				
+			}
+			foreach (string line in result)
+			{
+				Console.WriteLine(line);
+			}
+
 			Console.WriteLine();
 		}
 
@@ -1089,8 +1104,8 @@ namespace Assignment1
 				bool CourseHasAssignment = c.AssignmentCodes.Contains(AssignmentCode - 1);
 				if (!CourseHasAssignment)
 				{
-					Console.WriteLine($"Course '{c.Title}' doesn't have assignment '{a.Title}'");
-					return;
+					Console.WriteLine($"Course '{c.Title}' doesn't have assignment '{a.Title}'\n");
+					continue;
 				}
 
 				//check assignment has course
@@ -1098,8 +1113,8 @@ namespace Assignment1
 				bool AssignmentHasCourse = a.CourseCodes.Contains(CourseCode - 1);
 				if (!AssignmentHasCourse)
 				{
-					Console.WriteLine($"Assignment '{c.Title}' doesn't belong to course '{c.Title}'");
-					return;
+					Console.WriteLine($"Assignment '{c.Title}' doesn't belong to course '{c.Title}'\n");
+					continue;
 				}
 
 				//check course has student
@@ -1107,8 +1122,8 @@ namespace Assignment1
 				bool CourseHasStudent = c.StudentCodes.Contains(StudentCode - 1);
 				if (!CourseHasStudent)
 				{
-					Console.WriteLine($"Course '{c.Title}' doesn't have student '{s.LastName}'");
-					return;
+					Console.WriteLine($"Course '{c.Title}' doesn't have student '{s.LastName}'\n");
+					continue;
 				}
 
 				//check student has course
@@ -1116,8 +1131,8 @@ namespace Assignment1
 				bool StudentHasCourse = s.CourseCodes.Contains(CourseCode - 1);
 				if (!StudentHasCourse)
 				{
-					Console.WriteLine($"Student '{s.LastName}' doesn't belong to course '{c.Title}'");
-					return;
+					Console.WriteLine($"Student '{s.LastName}' doesn't belong to course '{c.Title}'\n");
+					continue;
 				}
 
 				//add them
@@ -1127,7 +1142,7 @@ namespace Assignment1
 
 				Console.Write($"you connected assignment {AssignmentCode}: '{a.Title}'");
 				Console.WriteLine($"with course {CourseCode}: '{c.Title}'");
-				Console.WriteLine($" for student {StudentCode}: '{s.FirstName} {s.LastName}'");
+				Console.WriteLine($" for student {StudentCode}: '{s.FirstName} {s.LastName}'\n");
 
 
 			} while (!input.Equals("0"));
@@ -1135,9 +1150,15 @@ namespace Assignment1
 
 		private static void ShowAssignmentsStudents()
 		{
+			List<string> result = new List<string>();
+
 			foreach (Student s in StudentList)
 			{
 				Console.WriteLine($"Student: {s.FirstName} {s.LastName}:");
+				if (s.AssignmentCodes.Count < 1)
+				{
+					Console.WriteLine("No assignments for this student\n");
+				}
 
 				foreach (int assignmentCode in s.AssignmentCodes)
 				{
@@ -1152,15 +1173,28 @@ namespace Assignment1
 
 		private static void CheckDateForSubmissions()
 		{
-			Console.WriteLine("input a date to check for submissions (day/month/year)");
-			Console.WriteLine("to quit type '0'\n");
+			DayOfWeek[] days = {
+				DayOfWeek.Monday,
+				DayOfWeek.Tuesday,
+				DayOfWeek.Wednesday,
+				DayOfWeek.Thursday,
+				DayOfWeek.Friday,
+				DayOfWeek.Saturday,
+				DayOfWeek.Sunday
+			};
+
+			
 
 			bool goodDate;
 			DateTime date;
+			string dateInput;
 
 			do
 			{
-				string dateInput = Console.ReadLine();
+				Console.WriteLine("input a date to check for submissions (day/month/year)");
+				Console.WriteLine("to quit type '0'\n");
+
+				dateInput = Console.ReadLine();
 				if (dateInput.Equals("0"))
 				{
 					return;
@@ -1169,11 +1203,44 @@ namespace Assignment1
 
 				goodDate = DateTime.TryParse(dateInput, out date);
 
-			} while (!goodDate);
-			Console.WriteLine($"day is {date.DayOfWeek}");
+				//dayDistance is the index of the day in the week
+				//it actualy represents the distance of the input date from the closest previous Monday
+				int dayDistance = Array.IndexOf(days, date.DayOfWeek);
 
+				DateTime startDate = date.AddDays(-dayDistance);
+				
+				DateTime endDate = startDate.AddDays(4);
 
-			Console.WriteLine();
+				Console.WriteLine($"Searching from {startDate} until {endDate}\n");
+
+				List<string> result = new List<string>();
+
+				foreach (Student s in StudentList)
+				{
+					foreach (int i in s.AssignmentCodes)
+					{
+						Assignment a = AssignmentList[i];
+						DateTime submissionDate = a.SubmissionDateAndTime;
+						if (submissionDate >= startDate && submissionDate <= endDate)
+						{
+							result.Add($"'{s.FirstName} {s.LastName}' has '{a.Title}' due {submissionDate}");
+						}
+					}
+				}
+				if (result.Count < 1)
+				{
+					Console.WriteLine("No students found for these criteria\n");
+				}
+				foreach (string line in result)
+				{
+					Console.WriteLine(line);
+				}
+
+				Console.WriteLine();
+
+			} while (!dateInput.Equals("0"));
+
+			
 		}
 	}
 }
