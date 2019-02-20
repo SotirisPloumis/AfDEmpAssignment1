@@ -90,10 +90,10 @@ namespace Assignment1
 					Console.ReadKey();
 					break;
 				case MenuOptions.InputAssignments:
-					InputAssignments();
+					AssignmentManager.InputAssignments();
 					break;
 				case MenuOptions.ShowAssignments:
-					ShowAssignments(true);
+					AssignmentManager.ShowAssignments(true);
 					Console.ReadKey();
 					break;
 				case MenuOptions.InputCourses:
@@ -127,149 +127,7 @@ namespace Assignment1
 
 			
 		}
-
-		//assignments
-
-		private static void InputAssignments()
-		{
-			string option = SchoolUI.ManualOrAuto("assignments");
-
-			if (option.Equals("a") || option.Equals("a"))
-			{
-				SchoolUI.AutoFillAssignments();
-			}
-			else
-			{
-				SchoolUI.ManualFillAssignments();
-			}
-		}
-
-		private static void ShowAssignments(bool inFull)
-		{
-			if (AssignmentList.Count < 1)
-			{
-				Console.WriteLine("No assignments yet\n");
-				return;
-			}
-
-			Console.WriteLine("ASSIGNMENTS");
-
-			foreach (Assignment a in AssignmentList)
-			{
-				if (inFull)
-				{
-					Console.WriteLine($"{AssignmentList.IndexOf(a) + 1}: Title: {a.Title}, Desciption: {a.Description}, due {a.SubmissionDateAndTime}");
-				}
-				else
-				{
-					Console.WriteLine($"{AssignmentList.IndexOf(a) + 1}: Title: {a.Title}");
-				}
-			}
-			Console.WriteLine();
-		}
-
-		private static void AutoFillAssignments()
-		{
-			string current = Directory.GetCurrentDirectory();
-
-			string path = Path.Combine(current, @"..\..\Data\autoassignments.txt");
-
-			string[] allAssignments;
-
-			try
-			{
-				allAssignments = File.ReadAllLines(path);
-			}
-			catch (FileNotFoundException)
-			{
-				Console.WriteLine("auto assignments file not found\n");
-				return;
-			}
-
-			int position = 0;
-			foreach (string line in allAssignments)
-			{
-				position++;
-				string[] items = line.Split('-');
-				string title = items[0];
-				string description = items[1];
-				bool correct = DateTime.TryParse(items[2], out DateTime submissionDate);
-				if (!correct)
-				{
-					Console.WriteLine("submission date is not a valid date, skipping line");
-					continue;
-				}
-				
-
-				Assignment a = new Assignment()
-				{
-
-					Title = title,
-					Description = description,
-					SubmissionDateAndTime = submissionDate
-				};
-
-				AssignmentList.Add(a);
-
-			}
-			if (AssignmentList.Count < 1)
-			{
-				Console.WriteLine("Couldn't auto save any assignments");
-			}
-			else
-			{
-				Console.WriteLine($"Successfully saved {AssignmentList.Count} assignments");
-			}
-			Console.WriteLine();
-
-		}
 		
-		private static void ManualFillAssignments()
-		{
-			Assignment a;
-			while (true)
-			{
-				Console.WriteLine("type a new assignment");
-				Console.WriteLine("Title - description - day/month/year");
-				Console.WriteLine("to quit type 'exit' or '0' and hit Enter");
-
-				string input = Console.ReadLine();
-
-				if (input.Trim().Equals("exit") || input.Trim().Equals("0"))
-				{
-					break;
-				}
-
-				string[] items = input.Split('-');
-
-				if (items.Length < 3)
-				{
-					Console.WriteLine("An argument is missing\n");
-					continue;
-				}
-
-				string title = items[0].Trim();
-				string description = items[1].Trim();
-				bool correct = DateTime.TryParse(items[2].Trim(), out DateTime submissionDate);
-				if (!correct)
-				{
-					Console.WriteLine("Date is not valid\n");
-					continue;
-				}
-
-				a = new Assignment()
-				{
-					Title = title,
-					Description = description,
-					SubmissionDateAndTime = submissionDate
-				};
-
-				AssignmentList.Add(a);
-
-				Console.WriteLine($"Assignment {a.Title} saved\n");
-			}
-		}
-
 		//courses
 
 		private static void InputCourses() {
@@ -761,7 +619,7 @@ namespace Assignment1
 				return;
 			}
 
-			ShowAssignments(false);
+			AssignmentManager.ShowAssignments(false);
 
 			ShowCourses(false);
 
@@ -873,7 +731,7 @@ namespace Assignment1
 				return;
 			}
 
-			ShowAssignments(false);
+			AssignmentManager.ShowAssignments(false);
 
 			ShowCourses(false);
 
