@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace Assignment1
 {
-	class AssignmentManager
+	static class AssignmentManager
 	{
 		public static void InputAssignments()
 		{
