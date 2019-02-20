@@ -231,39 +231,44 @@ namespace Assignment1
 		private static void ManualFillStudents()
 		{
 			Student s;
-			string choice;
 			while (true)
 			{
 				Console.WriteLine("type a new student");
 				Console.WriteLine("firstName-lastName-dayOfBirth/monthOfBirth/yearOfBirth-tuition");
 				Console.WriteLine("to quit type 'exit' or '0' and hit Enter");
+
 				string input = Console.ReadLine();
-				string[] items = input.Split('-');
-				if (items.Length < 4)
-				{
-					Console.WriteLine("something is missing\n");
-					continue;
-				}
-				choice = items[0];
-				if (choice.Equals("exit") || choice.Equals("0"))
+
+				if (input.Trim().Equals("exit") || input.Trim().Equals("0"))
 				{
 					break;
 				}
-				string fname = items[0];
-				string lname = items[1];
-				bool correct = DateTime.TryParse(items[2], out DateTime dob);
-				if (!correct)
+
+				string[] items = input.Split('-');
+
+				if (items.Length < 4)
 				{
-					Console.WriteLine("Date of birth is not correct");
+					Console.WriteLine("An argument is missing\n");
 					continue;
 				}
 				
-				correct = Double.TryParse(items[3], NumberStyles.Any, CultureInfo.InvariantCulture, out double tuition);
+				string fname = items[0].Trim();
+				string lname = items[1].Trim();
+
+				bool correct = DateTime.TryParse(items[2].Trim(), out DateTime dob);
 				if (!correct)
 				{
-					Console.WriteLine("fees are not a valid number");
+					Console.WriteLine("Date of birth is not correct\n");
 					continue;
 				}
+				
+				correct = Double.TryParse(items[3].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out double tuition);
+				if (!correct)
+				{
+					Console.WriteLine("Tuition is not a valid number\n");
+					continue;
+				}
+
 				s = new Student()
 				{
 					FirstName = fname,
@@ -273,6 +278,8 @@ namespace Assignment1
 				};
 
 				StudentList.Add(s);
+
+				Console.WriteLine($"Student {s.FirstName} {s.LastName} saved\n");
 			}
 
 			
@@ -367,27 +374,31 @@ namespace Assignment1
 		private static void ManualFillTrainers()
 		{
 			Trainer t;
-			string choice;
 			while (true)
 			{
 				Console.WriteLine("type a new trainer");
-				Console.WriteLine("firstName-lastName-Subject");
+				Console.WriteLine("firstName - lastName - Subject");
 				Console.WriteLine("to quit type 'exit' or '0' and hit Enter");
+
 				string input = Console.ReadLine();
-				string[] items = input.Split('-');
-				if (items.Length < 3)
-				{
-					Console.WriteLine("something is missing\n");
-					continue;
-				}
-				choice = items[0];
-				if (choice.Equals("exit") || choice.Equals("0"))
+
+				if (input.Trim().Equals("exit") || input.Trim().Equals("0"))
 				{
 					break;
 				}
-				string fname = items[0];
-				string lname = items[1];
-				string subject = items[2];
+
+				string[] items = input.Split('-');
+
+				if (items.Length < 3)
+				{
+					Console.WriteLine("An argument is missing\n");
+					continue;
+				}
+
+				
+				string fname = items[0].Trim();
+				string lname = items[1].Trim();
+				string subject = items[2].Trim();
 
 				t = new Trainer()
 				{
@@ -397,6 +408,8 @@ namespace Assignment1
 				};
 
 				TrainerList.Add(t);
+
+				Console.WriteLine($"Trainer {t.FirstName} {t.LastName} saved\n");
 			}
 		}
 
@@ -499,31 +512,33 @@ namespace Assignment1
 		private static void ManualFillAssignments()
 		{
 			Assignment a;
-			string choice = "";
-			while (!choice.Equals("exit"))
+			while (true)
 			{
 				Console.WriteLine("type a new assignment");
-				Console.WriteLine("Title-description - day/month/year");
+				Console.WriteLine("Title - description - day/month/year");
 				Console.WriteLine("to quit type 'exit' or '0' and hit Enter");
-				string input = Console.ReadLine();
-				string[] items = input.Split('-');
-				if (items.Length < 3)
-				{
-					Console.WriteLine("something is missing\n");
-					continue;
-				}
 
-				choice = items[0];
-				if (choice.Equals("exit") || choice.Equals("0"))
+				string input = Console.ReadLine();
+
+				if (input.Trim().Equals("exit") || input.Trim().Equals("0"))
 				{
 					break;
 				}
-				string title = items[0];
-				string description = items[1];
-				bool correct = DateTime.TryParse(items[2], out DateTime submissionDate);
+
+				string[] items = input.Split('-');
+
+				if (items.Length < 3)
+				{
+					Console.WriteLine("An argument is missing\n");
+					continue;
+				}
+
+				string title = items[0].Trim();
+				string description = items[1].Trim();
+				bool correct = DateTime.TryParse(items[2].Trim(), out DateTime submissionDate);
 				if (!correct)
 				{
-					Console.WriteLine("date is not valid, skipping line");
+					Console.WriteLine("Date is not valid\n");
 					continue;
 				}
 
@@ -535,6 +550,8 @@ namespace Assignment1
 				};
 
 				AssignmentList.Add(a);
+
+				Console.WriteLine($"Assignment {a.Title} saved\n");
 			}
 		}
 
@@ -644,38 +661,42 @@ namespace Assignment1
 		private static void ManualFillCourses()
 		{
 			Course c;
-			string choice = "";
-			while (!choice.Equals("exit"))
+			while (true)
 			{
 				Console.WriteLine("type a new course");
-				Console.WriteLine("Title-stream - type - day/month/year of start - day/month/year of end");
+				Console.WriteLine("Title - stream - type - day/month/year of start - day/month/year of end");
 				Console.WriteLine("to quit type 'exit' or '0' and hit Enter");
-				string input = Console.ReadLine();
-				string[] items = input.Split('-');
-				if (items.Length < 5)
-				{
-					Console.WriteLine("something is missing\n");
-					continue;
-				}
 
-				choice = items[0];
-				if (choice.Equals("exit") || choice.Equals("0"))
+				string input = Console.ReadLine();
+
+				if (input.Trim().Equals("exit") || input.Trim().Equals("0"))
 				{
 					break;
 				}
-				string title = items[0];
-				string stream = items[1];
-				string type = items[2];
-				bool correct = DateTime.TryParse(items[3], out DateTime startDate);
-				if (!correct)
+
+				string[] items = input.Split('-');
+
+				if (items.Length < 5)
 				{
-					Console.WriteLine("start date is not valid, skipping line");
+					Console.WriteLine("An argument is missing\n");
 					continue;
 				}
-				correct = DateTime.TryParse(items[4], out DateTime endDate);
+
+				string title = items[0].Trim();
+				string stream = items[1].Trim();
+				string type = items[2].Trim();
+
+				bool correct = DateTime.TryParse(items[3].Trim(), out DateTime startDate);
 				if (!correct)
 				{
-					Console.WriteLine("end date is not correct, skipping line");
+					Console.WriteLine("Start date is not valid\n");
+					continue;
+				}
+
+				correct = DateTime.TryParse(items[4].Trim(), out DateTime endDate);
+				if (!correct)
+				{
+					Console.WriteLine("End date is not valid\n");
 					continue;
 				}
 
@@ -689,6 +710,8 @@ namespace Assignment1
 				};
 
 				CourseList.Add(c);
+
+				Console.WriteLine($"Course {c.Title} saved\n");
 			}
 		}
 
@@ -772,64 +795,72 @@ namespace Assignment1
 
 		private static void ConnectStudentsCourses()
 		{
-			if (StudentList.Count == 0 || CourseList.Count == 0)
+			if (StudentList.Count == 0)
 			{
-				Console.WriteLine("students or courses do not exist\n");
+				Console.WriteLine("students do not exist\n");
+				return;
+			}
+			else if (CourseList.Count == 0)
+			{
+				Console.WriteLine("courses do not exist\n");
 				return;
 			}
 
-			Console.WriteLine("All students:\n");
-
 			ShowStudents(false);
-
-			Console.WriteLine("All courses:\n");
 
 			ShowCourses(false);
 
 			string input;
 			bool correctInput;
 
-			do
+			while (true)
 			{
 				Console.WriteLine("type the number of student and course you want to connect, using -");
-				Console.WriteLine("for example type '1-2' to connect the first student with the second course");
-				Console.WriteLine("type '0' to leave\n");
+				Console.WriteLine("for example, type '1-2' to connect the first student with the second course");
+				Console.WriteLine("type 'exit' or '0' to leave\n");
 
 				input = Console.ReadLine();
-				if (input.Trim().Equals("0"))
+				if (input.Trim().Equals("0") || input.Trim().Equals("exit"))
 				{
 					break;
 				}
-				else if (input.Trim().Equals(""))
+
+				string[] items = input.Split('-');
+				if (items.Length < 2)
 				{
+					Console.WriteLine("something is missing\n");
 					continue;
 				}
-				string[] items = input.Split('-');
 
-				string StudentInput = items[0];
-				correctInput = Int32.TryParse(StudentInput, out int StudentCode);
+				correctInput = Int32.TryParse(items[0].Trim(), out int StudentCode);
 				if (!correctInput)
 				{
 					Console.WriteLine("wrong student attribute\n");
 					continue;
 				}
 
-				string CourseInput = items[1];
-				correctInput = Int32.TryParse(CourseInput, out int CourseCode);
+				correctInput = Int32.TryParse(items[1].Trim(), out int CourseCode);
 				if (!correctInput)
 				{
 					Console.WriteLine("wrong course attribute\n");
 					continue;
 				}
 
-				StudentList[StudentCode - 1].CourseCodes.Add(CourseCode - 1);
-				CourseList[CourseCode - 1].StudentCodes.Add(StudentCode - 1);
+				try
+				{
+					StudentList[StudentCode - 1].CourseCodes.Add(CourseCode - 1);
+					CourseList[CourseCode - 1].StudentCodes.Add(StudentCode - 1);
+				}
+				catch (IndexOutOfRangeException)
+				{
+					Console.Write("the numbers you entered do not correspond ");
+					Console.WriteLine("to valid students and courses\n");
+					continue;
+				}
 
 				Console.WriteLine($"you connected student {StudentCode}: {StudentList[StudentCode - 1].LastName} with course {CourseCode}: {CourseList[CourseCode - 1].Title}\n");
 
-
-
-			} while (!input.Equals("0"));
+			}
 
 		}
 
@@ -877,64 +908,71 @@ namespace Assignment1
 
 		private static void ConnectTrainersCourses()
 		{
-			if (TrainerList.Count == 0 || CourseList.Count == 0)
+			if (TrainerList.Count == 0)
 			{
-				Console.WriteLine("trainers or courses do not exist\n");
+				Console.WriteLine("trainers do not exist\n");
+				return;
+			}
+			else if (CourseList.Count == 0)
+			{
+				Console.WriteLine("courses do not exist\n");
 				return;
 			}
 
-			Console.WriteLine("All trainers:\n");
-
 			ShowTrainers(false);
-
-			Console.WriteLine("All courses:\n");
 
 			ShowCourses(false);
 
 			string input;
 			bool correctInput;
 
-			do
+			while (true)
 			{
 				Console.WriteLine("type the number of trainer and course you want to connect, using -");
 				Console.WriteLine("for example type '1-2' to connect the first trainer with the second course");
-				Console.WriteLine("type '0' to leave\n");
+				Console.WriteLine("type '0' or 'exit' to leave\n");
 
 				input = Console.ReadLine();
-				if (input.Trim().Equals("0"))
+				if (input.Trim().Equals("0") || input.Trim().Equals("exit"))
 				{
 					break;
 				}
-				else if (input.Trim().Equals(""))
-				{
-					continue;
-				}
-				string[] items = input.Split('-');
 
-				string TrainerInput = items[0];
-				correctInput = Int32.TryParse(TrainerInput, out int TrainerCode);
+				string[] items = input.Split('-');
+				if (items.Length < 2)
+				{
+					Console.WriteLine("arguments missing\n");
+				}
+
+				correctInput = Int32.TryParse(items[0].Trim(), out int TrainerCode);
 				if (!correctInput)
 				{
 					Console.WriteLine("wrong trainer attribute\n");
 					continue;
 				}
 
-				string CourseInput = items[1];
-				correctInput = Int32.TryParse(CourseInput, out int CourseCode);
+				correctInput = Int32.TryParse(items[1].Trim(), out int CourseCode);
 				if (!correctInput)
 				{
 					Console.WriteLine("wrong course attribute\n");
 					continue;
 				}
 
-				TrainerList[TrainerCode - 1].CourseCodes.Add(CourseCode - 1);
-				CourseList[CourseCode - 1].TrainerCodes.Add(TrainerCode - 1);
+				try
+				{
+					TrainerList[TrainerCode - 1].CourseCodes.Add(CourseCode - 1);
+					CourseList[CourseCode - 1].TrainerCodes.Add(TrainerCode - 1);
+				}
+				catch (IndexOutOfRangeException)
+				{
+					Console.Write("the numbers you entered do not correspond ");
+					Console.WriteLine("to valid trainers and courses\n");
+					continue;
+				}
 
 				Console.WriteLine($"you connected trainer {TrainerCode}: {TrainerList[TrainerCode - 1].LastName} with course {CourseCode}: {CourseList[CourseCode - 1].Title}\n");
 
-
-
-			} while (!input.Equals("0"));
+			}
 		}
 
 		private static void ShowTrainersCourses()
@@ -955,64 +993,72 @@ namespace Assignment1
 
 		private static void ConnectAssignmentsCourses()
 		{
-			if (AssignmentList.Count == 0 || CourseList.Count == 0)
+			if (AssignmentList.Count == 0)
 			{
-				Console.WriteLine("assignments or courses do not exist\n");
+				Console.WriteLine("assignments do not exist\n");
+				return;
+			}
+			else if (CourseList.Count == 0)
+			{
+				Console.WriteLine("courses do not exist\n");
 				return;
 			}
 
-			Console.WriteLine("All assignments:\n");
-
 			ShowAssignments(false);
-
-			Console.WriteLine("All courses:\n");
 
 			ShowCourses(false);
 
 			string input;
 			bool correctInput;
 
-			do
+			while(true)
 			{
 				Console.WriteLine("type the number of assignment and course you want to connect, using -");
 				Console.WriteLine("for example type '1-2' to connect the first assignment with the second course");
-				Console.WriteLine("type '0' to leave\n");
+				Console.WriteLine("type '0' or 'exit' to leave\n");
 
 				input = Console.ReadLine();
-				if (input.Trim().Equals("0"))
+				if (input.Trim().Equals("0") || input.Trim().Equals("exit"))
 				{
 					break;
 				}
-				else if (input.Trim().Equals(""))
+				
+				string[] items = input.Split('-');
+				if (items.Length < 2)
 				{
+					Console.WriteLine("arguments missing");
 					continue;
 				}
-				string[] items = input.Split('-');
 
-				string AssignmentInput = items[0];
-				correctInput = Int32.TryParse(AssignmentInput, out int AssignmentCode);
+				correctInput = Int32.TryParse(items[0].Trim(), out int AssignmentCode);
 				if (!correctInput)
 				{
 					Console.WriteLine("wrong assignment attribute\n");
 					continue;
 				}
 
-				string CourseInput = items[1];
-				correctInput = Int32.TryParse(CourseInput, out int CourseCode);
+				correctInput = Int32.TryParse(items[1].Trim(), out int CourseCode);
 				if (!correctInput)
 				{
 					Console.WriteLine("wrong course attribute\n");
 					continue;
 				}
 
-				AssignmentList[AssignmentCode - 1].CourseCodes.Add(CourseCode - 1);
-				CourseList[CourseCode - 1].AssignmentCodes.Add(AssignmentCode - 1);
+				try
+				{
+					AssignmentList[AssignmentCode - 1].CourseCodes.Add(CourseCode - 1);
+					CourseList[CourseCode - 1].AssignmentCodes.Add(AssignmentCode - 1);
+				}
+				catch (IndexOutOfRangeException)
+				{
+					Console.Write("the numbers you entered do not correspond ");
+					Console.WriteLine("to valid assignments and courses\n");
+					continue;
+				}
 
 				Console.WriteLine($"you connected assignment {AssignmentCode}: {AssignmentList[AssignmentCode - 1].Title} with course {CourseCode}: {CourseList[CourseCode - 1].Title}\n");
 
-
-
-			} while (!input.Equals("0"));
+			}
 		}
 
 		private static void ShowAssignmentsCourses()
@@ -1049,57 +1095,50 @@ namespace Assignment1
 				return;
 			}
 
-			Console.WriteLine("All assignments:\n");
-
 			ShowAssignments(false);
 
-			Console.WriteLine("All courses:\n");
-
 			ShowCourses(false);
-
-			Console.WriteLine("All students:\n");
 
 			ShowStudents(false);
 
 			string input;
 			bool correctInput;
 
-			do
+			while (true)
 			{
 				Console.WriteLine("type the number of assignment,course and student you want to connect, using -");
 				Console.WriteLine("for example type '1-2-3' to connect the first assignment with the second course for the third student");
 				Console.WriteLine("student and assignment must already be connected to course");
-				Console.WriteLine("type '0' to leave\n");
+				Console.WriteLine("type '0' or 'exit' to leave\n");
 
 				input = Console.ReadLine();
-				if (input.Trim().Equals("0"))
+				if (input.Trim().Equals("0") || input.Trim().Equals("exit"))
 				{
 					break;
 				}
-				else if (input.Trim().Equals(""))
+				
+				string[] items = input.Split('-');
+				if (items.Length < 3)
 				{
+					Console.WriteLine("arguments missing\n");
 					continue;
 				}
-				string[] items = input.Split('-');
 
-				string AssignmentInput = items[0];
-				correctInput = Int32.TryParse(AssignmentInput, out int AssignmentCode);
+				correctInput = Int32.TryParse(items[0].Trim(), out int AssignmentCode);
 				if (!correctInput)
 				{
 					Console.WriteLine("wrong assignment attribute\n");
 					continue;
 				}
 
-				string CourseInput = items[1];
-				correctInput = Int32.TryParse(CourseInput, out int CourseCode);
+				correctInput = Int32.TryParse(items[1].Trim(), out int CourseCode);
 				if (!correctInput)
 				{
 					Console.WriteLine("wrong course attribute\n");
 					continue;
 				}
 
-				string StudentInput = items[2];
-				correctInput = Int32.TryParse(StudentInput, out int StudentCode);
+				correctInput = Int32.TryParse(items[2].Trim(), out int StudentCode);
 				if (!correctInput)
 				{
 					Console.WriteLine("wrong student attribute\n");
@@ -1110,24 +1149,37 @@ namespace Assignment1
 
 				if (CourseCode > CourseList.Count)
 				{
-					Console.WriteLine("course doesn't exist");
-					return;
+					Console.WriteLine("course doesn't exist\n");
+					continue;
 				}
 				else if (AssignmentCode > AssignmentList.Count)
 				{
-					Console.WriteLine("assignment doesn't exist");
-					return;
+					Console.WriteLine("assignment doesn't exist\n");
+					continue;
 				}
 				else if (StudentCode > StudentList.Count)
 				{
-					Console.WriteLine("student doesn't exist");
-					return;
+					Console.WriteLine("student doesn't exist\n");
+					continue;
 				}
 
-				
-				Course c = CourseList[CourseCode - 1];
-				Assignment a = AssignmentList[AssignmentCode - 1];
-				Student s = StudentList[StudentCode - 1];
+
+				Course c;
+				Assignment a;
+				Student s;
+
+				try
+				{
+					c = CourseList[CourseCode - 1];
+					a = AssignmentList[AssignmentCode - 1];
+					s = StudentList[StudentCode - 1];
+				}
+				catch (IndexOutOfRangeException)
+				{
+					Console.Write("the numbers you entered do not correspond ");
+					Console.WriteLine("to valid assignments, students and courses\n");
+					continue;
+				}
 
 				//check course has assignment
 
@@ -1171,11 +1223,11 @@ namespace Assignment1
 				a.StudentCodes.Add(StudentCode - 1);
 
 				Console.Write($"you connected assignment {AssignmentCode}: '{a.Title}'");
-				Console.WriteLine($"with course {CourseCode}: '{c.Title}'");
-				Console.WriteLine($" for student {StudentCode}: '{s.FirstName} {s.LastName}'\n");
+				Console.WriteLine($"with course {CourseCode}: '{c.Title}' ");
+				Console.WriteLine($"for student {StudentCode}: '{s.FirstName} {s.LastName}'\n");
 
 
-			} while (!input.Equals("0"));
+			}
 		}
 
 		private static void ShowAssignmentsStudents()
