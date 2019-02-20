@@ -78,6 +78,11 @@ namespace Assignment1
 					Console.WriteLine($"Line {position}: the date of birth is not correct, skipping line");
 					continue;
 				}
+				if (dob >= DateTime.Now || dob <= DateTime.Now.AddYears(-100))
+				{
+					Console.WriteLine($"{dob} doesn't make sense for birthday\n");
+					continue;
+				}
 
 				correct = Double.TryParse(items[3], NumberStyles.Any, CultureInfo.InvariantCulture, out double fees);
 				if (!correct)
@@ -115,7 +120,7 @@ namespace Assignment1
 			{
 				Console.WriteLine("type a new student");
 				Console.WriteLine("firstName-lastName-dayOfBirth/monthOfBirth/yearOfBirth-tuition");
-				Console.WriteLine("to quit type 'exit' or '0' and hit Enter");
+				Console.WriteLine("to quit type 'exit' or '0' and hit Enter\n");
 
 				string input = Console.ReadLine();
 
@@ -139,6 +144,11 @@ namespace Assignment1
 				if (!correct)
 				{
 					Console.WriteLine("Date of birth is not correct\n");
+					continue;
+				}
+				if (dob >= DateTime.Now || dob <= DateTime.Now.AddYears(-100))
+				{
+					Console.WriteLine($"{dob} doesn't make sense for birthday\n");
 					continue;
 				}
 

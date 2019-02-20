@@ -79,6 +79,11 @@ namespace Assignment1
 					Console.WriteLine("submission date is not a valid date, skipping line");
 					continue;
 				}
+				if (submissionDate <= DateTime.Now || submissionDate >= DateTime.Now.AddYears(100))
+				{
+					Console.WriteLine($"{submissionDate} doesn't make sense for submission date\n");
+					continue;
+				}
 
 
 				Assignment a = new Assignment()
@@ -134,6 +139,11 @@ namespace Assignment1
 				if (!correct)
 				{
 					Console.WriteLine("Date is not valid\n");
+					continue;
+				}
+				if (submissionDate <= DateTime.Now || submissionDate >= DateTime.Now.AddYears(100))
+				{
+					Console.WriteLine($"{submissionDate} doesn't make sense for submission date\n");
 					continue;
 				}
 

@@ -86,6 +86,11 @@ namespace Assignment1
 					Console.WriteLine($"Line {position}: end date is not correct, skipping line");
 					continue;
 				}
+				if (startDate >= endDate)
+				{
+					Console.WriteLine("start date is after end date\n");
+					continue;
+				}
 
 
 				Course c = new Course()
