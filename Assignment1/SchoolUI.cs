@@ -80,24 +80,28 @@ namespace Assignment1
 					break;
 				case MenuOptions.ShowStudents:
 					ShowStudents(true);
+					Console.ReadKey();
 					break;
 				case MenuOptions.InputTrainers:
 					InputTrainers();
 					break;
 				case MenuOptions.ShowTrainers:
 					ShowTrainers(true);
+					Console.ReadKey();
 					break;
 				case MenuOptions.InputAssignments:
 					InputAssignments();
 					break;
 				case MenuOptions.ShowAssignments:
 					ShowAssignments(true);
+					Console.ReadKey();
 					break;
 				case MenuOptions.InputCourses:
 					InputCourses();
 					break;
 				case MenuOptions.ShowCourses:
 					ShowCourses(true);
+					Console.ReadKey();
 					break;
 				case MenuOptions.ManageConnections:
 					int ConnectChoice;
@@ -121,7 +125,7 @@ namespace Assignment1
 					break;
 			}
 
-			Console.ReadKey();
+			
 		}
 
 		//students
@@ -227,16 +231,21 @@ namespace Assignment1
 		private static void ManualFillStudents()
 		{
 			Student s;
-			string choice = "";
-			while (!choice.Equals("exit"))
+			string choice;
+			while (true)
 			{
 				Console.WriteLine("type a new student");
 				Console.WriteLine("firstName-lastName-dayOfBirth/monthOfBirth/yearOfBirth-tuition");
-				Console.WriteLine("to quit type \"exit\" and hit Enter");
+				Console.WriteLine("to quit type 'exit' or '0' and hit Enter");
 				string input = Console.ReadLine();
 				string[] items = input.Split('-');
+				if (items.Length < 4)
+				{
+					Console.WriteLine("something is missing\n");
+					continue;
+				}
 				choice = items[0];
-				if (choice.Equals("exit"))
+				if (choice.Equals("exit") || choice.Equals("0"))
 				{
 					break;
 				}
@@ -358,16 +367,21 @@ namespace Assignment1
 		private static void ManualFillTrainers()
 		{
 			Trainer t;
-			string choice = "";
-			while (!choice.Equals("exit"))
+			string choice;
+			while (true)
 			{
 				Console.WriteLine("type a new trainer");
 				Console.WriteLine("firstName-lastName-Subject");
-				Console.WriteLine("to quit type 'exit' and hit Enter");
+				Console.WriteLine("to quit type 'exit' or '0' and hit Enter");
 				string input = Console.ReadLine();
 				string[] items = input.Split('-');
+				if (items.Length < 3)
+				{
+					Console.WriteLine("something is missing\n");
+					continue;
+				}
 				choice = items[0];
-				if (choice.Equals("exit"))
+				if (choice.Equals("exit") || choice.Equals("0"))
 				{
 					break;
 				}
@@ -490,11 +504,17 @@ namespace Assignment1
 			{
 				Console.WriteLine("type a new assignment");
 				Console.WriteLine("Title-description - day/month/year");
-				Console.WriteLine("to quit type \"exit\" and hit Enter");
+				Console.WriteLine("to quit type 'exit' or '0' and hit Enter");
 				string input = Console.ReadLine();
 				string[] items = input.Split('-');
+				if (items.Length < 3)
+				{
+					Console.WriteLine("something is missing\n");
+					continue;
+				}
+
 				choice = items[0];
-				if (choice.Equals("exit"))
+				if (choice.Equals("exit") || choice.Equals("0"))
 				{
 					break;
 				}
@@ -629,11 +649,17 @@ namespace Assignment1
 			{
 				Console.WriteLine("type a new course");
 				Console.WriteLine("Title-stream - type - day/month/year of start - day/month/year of end");
-				Console.WriteLine("to quit type \"exit\" and hit Enter");
+				Console.WriteLine("to quit type 'exit' or '0' and hit Enter");
 				string input = Console.ReadLine();
 				string[] items = input.Split('-');
+				if (items.Length < 5)
+				{
+					Console.WriteLine("something is missing\n");
+					continue;
+				}
+
 				choice = items[0];
-				if (choice.Equals("exit"))
+				if (choice.Equals("exit") || choice.Equals("0"))
 				{
 					break;
 				}
@@ -710,32 +736,36 @@ namespace Assignment1
 					break;
 				case ConnectionMenuOptions.ShowStudentsCourses:
 					ShowStudentCourses();
+					Console.ReadKey();
 					break;
 				case ConnectionMenuOptions.ConnectTrainersCourses:
 					ConnectTrainersCourses();
 					break;
 				case ConnectionMenuOptions.ShowTrainersCourses:
 					ShowTrainersCourses();
+					Console.ReadKey();
 					break;
 				case ConnectionMenuOptions.ConnectAssignmentsCourses:
 					ConnectAssignmentsCourses();
 					break;
 				case ConnectionMenuOptions.ShowAssignmentsCourses:
 					ShowAssignmentsCourses();
+					Console.ReadKey();
 					break;
 				case ConnectionMenuOptions.ConnectAssignmentsStudents:
 					ConnectAssignmentsStudents();
 					break;
 				case ConnectionMenuOptions.ShowAssignmentsStudents:
 					ShowAssignmentsStudents();
+					Console.ReadKey();
 					break;
 				case ConnectionMenuOptions.ShowStudentsManyCourses:
 					ShowStudentsManyCourses();
+					Console.ReadKey();
 					break;
 				default:
 					break;
 			}
-			Console.ReadKey();
 		}
 
 		// students courses
