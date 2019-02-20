@@ -48,6 +48,7 @@
     <Compile Include="MenuOptions.cs" />
     <Compile Include="Course.cs" />
     <Compile Include="SchoolUI.cs" />
+    <Compile Include="StudentManager.cs" />
     <Compile Include="Trainer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
