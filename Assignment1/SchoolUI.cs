@@ -857,10 +857,19 @@ namespace Assignment1
 					continue;
 				}
 
-				StudentList[StudentCode - 1].CourseCodes.Add(CourseCode - 1);
-				CourseList[CourseCode - 1].StudentCodes.Add(StudentCode - 1);
+				Student s = StudentList[StudentCode - 1];
+				Course c = CourseList[CourseCode - 1];
 
-				Console.WriteLine($"you connected student {StudentCode}: {StudentList[StudentCode - 1].LastName} with course {CourseCode}: {CourseList[CourseCode - 1].Title}\n");
+				if (s.CourseCodes.Contains(CourseCode-1)&&c.StudentCodes.Contains(StudentCode-1))
+				{
+					Console.WriteLine("this relation already exists\n");
+					continue;
+				}
+
+				s.CourseCodes.Add(CourseCode - 1);
+				c.StudentCodes.Add(StudentCode - 1);
+
+				Console.WriteLine($"you connected student {StudentCode}: {s.FirstName} {s.LastName} with course {CourseCode}: {c.Title}\n");
 
 			}
 
@@ -868,9 +877,19 @@ namespace Assignment1
 
 		private static void ShowStudentCourses()
 		{
+			if (CourseList.Count < 1)
+			{
+				Console.WriteLine("No courses yet\n");
+				return;
+			}
 			foreach (Course c in CourseList)
 			{
 				Console.WriteLine($"Course: {c.Title}");
+				if (c.StudentCodes.Count < 1)
+				{
+					Console.WriteLine("No students for this coourse\n");
+					continue;
+				}
 
 				foreach (int studentCode in c.StudentCodes)
 				{
@@ -971,19 +990,38 @@ namespace Assignment1
 					continue;
 				}
 
-				TrainerList[TrainerCode - 1].CourseCodes.Add(CourseCode - 1);
-				CourseList[CourseCode - 1].TrainerCodes.Add(TrainerCode - 1);
+				Trainer t = TrainerList[TrainerCode - 1];
+				Course c = CourseList[CourseCode - 1];
 
-				Console.WriteLine($"you connected trainer {TrainerCode}: {TrainerList[TrainerCode - 1].LastName} with course {CourseCode}: {CourseList[CourseCode - 1].Title}\n");
+				if (t.CourseCodes.Contains(CourseCode-1) && c.TrainerCodes.Contains(TrainerCode-1))
+				{
+					Console.WriteLine("this relation already exists\n");
+					continue;
+				}
+
+				t.CourseCodes.Add(CourseCode - 1);
+				c.TrainerCodes.Add(TrainerCode - 1);
+
+				Console.WriteLine($"you connected trainer {TrainerCode}: {t.FirstName} {t.LastName} with course {CourseCode}: {c.Title}\n");
 
 			}
 		}
 
 		private static void ShowTrainersCourses()
 		{
+			if (CourseList.Count < 1)
+			{
+				Console.WriteLine("no courses yet\n");
+				return;
+			}
 			foreach (Course c in CourseList)
 			{
 				Console.WriteLine($"Course: {c.Title}");
+				if (c.TrainerCodes.Count < 1)
+				{
+					Console.WriteLine("not trainers for this course\n");
+					continue;
+				}
 
 				foreach (int trainerCode in c.TrainerCodes)
 				{
@@ -1059,19 +1097,38 @@ namespace Assignment1
 					continue;
 				}
 
-				AssignmentList[AssignmentCode - 1].CourseCodes.Add(CourseCode - 1);
-				CourseList[CourseCode - 1].AssignmentCodes.Add(AssignmentCode - 1);
+				Assignment a = AssignmentList[AssignmentCode - 1];
+				Course c = CourseList[CourseCode - 1];
 
-				Console.WriteLine($"you connected assignment {AssignmentCode}: {AssignmentList[AssignmentCode - 1].Title} with course {CourseCode}: {CourseList[CourseCode - 1].Title}\n");
+				if (a.CourseCodes.Contains(CourseCode-1) && c.AssignmentCodes.Contains(AssignmentCode-1))
+				{
+					Console.WriteLine("this relation already exists");
+					continue;
+				}
+
+				a.CourseCodes.Add(CourseCode - 1);
+				c.AssignmentCodes.Add(AssignmentCode - 1);
+
+				Console.WriteLine($"you connected assignment {AssignmentCode}: {a.Title} with course {CourseCode}: {c.Title}\n");
 
 			}
 		}
 
 		private static void ShowAssignmentsCourses()
 		{
+			if (CourseList.Count < 1)
+			{
+				Console.WriteLine("no courses yet");
+				return;
+			}
 			foreach (Course c in CourseList)
 			{
 				Console.WriteLine($"Course: {c.Title}");
+				if (c.AssignmentCodes.Count < 1)
+				{
+					Console.WriteLine("no assignments for this course\n");
+					continue;
+				}
 
 				foreach (int assignmentCode in c.AssignmentCodes)
 				{
@@ -1212,6 +1269,12 @@ namespace Assignment1
 
 				//add them
 
+				if (s.AssignmentCodes.Contains(AssignmentCode-1) && a.StudentCodes.Contains(StudentCode-1))
+				{
+					Console.WriteLine("this relation already exists\n");
+					continue;
+				}
+
 				s.AssignmentCodes.Add(AssignmentCode - 1);
 				a.StudentCodes.Add(StudentCode - 1);
 
@@ -1226,6 +1289,12 @@ namespace Assignment1
 		private static void ShowAssignmentsStudents()
 		{
 			List<string> result = new List<string>();
+
+			if (StudentList.Count < 1)
+			{
+				Console.WriteLine("no students yet");
+				return;
+			}
 
 			foreach (Student s in StudentList)
 			{
