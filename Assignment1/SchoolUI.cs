@@ -846,17 +846,19 @@ namespace Assignment1
 					continue;
 				}
 
-				try
+				if (StudentCode < 1 || StudentCode > StudentList.Count)
 				{
-					StudentList[StudentCode - 1].CourseCodes.Add(CourseCode - 1);
-					CourseList[CourseCode - 1].StudentCodes.Add(StudentCode - 1);
-				}
-				catch (IndexOutOfRangeException)
-				{
-					Console.Write("the numbers you entered do not correspond ");
-					Console.WriteLine("to valid students and courses\n");
+					Console.WriteLine("student number is not valid\n");
 					continue;
 				}
+				if (CourseCode < 1 || CourseCode > CourseList.Count)
+				{
+					Console.WriteLine("course number is not valid\n");
+					continue;
+				}
+
+				StudentList[StudentCode - 1].CourseCodes.Add(CourseCode - 1);
+				CourseList[CourseCode - 1].StudentCodes.Add(StudentCode - 1);
 
 				Console.WriteLine($"you connected student {StudentCode}: {StudentList[StudentCode - 1].LastName} with course {CourseCode}: {CourseList[CourseCode - 1].Title}\n");
 
@@ -958,17 +960,19 @@ namespace Assignment1
 					continue;
 				}
 
-				try
+				if (TrainerCode < 1 || TrainerCode > TrainerList.Count)
 				{
-					TrainerList[TrainerCode - 1].CourseCodes.Add(CourseCode - 1);
-					CourseList[CourseCode - 1].TrainerCodes.Add(TrainerCode - 1);
-				}
-				catch (IndexOutOfRangeException)
-				{
-					Console.Write("the numbers you entered do not correspond ");
-					Console.WriteLine("to valid trainers and courses\n");
+					Console.WriteLine("trainer number is not valid\n");
 					continue;
 				}
+				if (CourseCode < 1 || CourseCode > CourseList.Count)
+				{
+					Console.WriteLine("course number is not valid\n");
+					continue;
+				}
+
+				TrainerList[TrainerCode - 1].CourseCodes.Add(CourseCode - 1);
+				CourseList[CourseCode - 1].TrainerCodes.Add(TrainerCode - 1);
 
 				Console.WriteLine($"you connected trainer {TrainerCode}: {TrainerList[TrainerCode - 1].LastName} with course {CourseCode}: {CourseList[CourseCode - 1].Title}\n");
 
@@ -1044,17 +1048,19 @@ namespace Assignment1
 					continue;
 				}
 
-				try
+				if (AssignmentCode < 1 || AssignmentCode > AssignmentList.Count)
 				{
-					AssignmentList[AssignmentCode - 1].CourseCodes.Add(CourseCode - 1);
-					CourseList[CourseCode - 1].AssignmentCodes.Add(AssignmentCode - 1);
-				}
-				catch (IndexOutOfRangeException)
-				{
-					Console.Write("the numbers you entered do not correspond ");
-					Console.WriteLine("to valid assignments and courses\n");
+					Console.WriteLine("assignment number is not valid");
 					continue;
 				}
+				if (CourseCode < 1 || CourseCode > CourseList.Count)
+				{
+					Console.WriteLine("course number is not valid");
+					continue;
+				}
+
+				AssignmentList[AssignmentCode - 1].CourseCodes.Add(CourseCode - 1);
+				CourseList[CourseCode - 1].AssignmentCodes.Add(AssignmentCode - 1);
 
 				Console.WriteLine($"you connected assignment {AssignmentCode}: {AssignmentList[AssignmentCode - 1].Title} with course {CourseCode}: {CourseList[CourseCode - 1].Title}\n");
 
@@ -1147,39 +1153,26 @@ namespace Assignment1
 
 				//check codes are correct
 
-				if (CourseCode > CourseList.Count)
+				if (CourseCode > CourseList.Count || CourseCode < 1)
 				{
-					Console.WriteLine("course doesn't exist\n");
+					Console.WriteLine("course number is not valid\n");
 					continue;
 				}
-				else if (AssignmentCode > AssignmentList.Count)
+				else if (AssignmentCode > AssignmentList.Count || AssignmentCode < 1)
 				{
-					Console.WriteLine("assignment doesn't exist\n");
+					Console.WriteLine("assignment number is not valid\n");
 					continue;
 				}
-				else if (StudentCode > StudentList.Count)
+				else if (StudentCode > StudentList.Count || StudentCode < 1)
 				{
-					Console.WriteLine("student doesn't exist\n");
+					Console.WriteLine("student number is not valid\n");
 					continue;
 				}
 
 
-				Course c;
-				Assignment a;
-				Student s;
-
-				try
-				{
-					c = CourseList[CourseCode - 1];
-					a = AssignmentList[AssignmentCode - 1];
-					s = StudentList[StudentCode - 1];
-				}
-				catch (IndexOutOfRangeException)
-				{
-					Console.Write("the numbers you entered do not correspond ");
-					Console.WriteLine("to valid assignments, students and courses\n");
-					continue;
-				}
+				Course c = CourseList[CourseCode - 1];
+				Assignment a = AssignmentList[AssignmentCode - 1];
+				Student s = StudentList[StudentCode - 1];
 
 				//check course has assignment
 
