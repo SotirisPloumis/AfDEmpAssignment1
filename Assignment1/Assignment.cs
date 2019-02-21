@@ -14,6 +14,10 @@ namespace Assignment1
 
 		public DateTime SubmissionDateAndTime { get; set; }
 
+		public decimal OralMark { get; set; }
+
+		public decimal TotalMark { get; set; }
+
 		public List<int> CourseCodes { get; set; }
 
 		public List<int> StudentCodes { get; set; }

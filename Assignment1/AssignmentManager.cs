@@ -83,12 +83,12 @@ namespace Assignment1
 				string[] items = line.Split('-');
 
 				//check if arguments are missing
-				if (items.Length < 3)
+				if (items.Length < 5)
 				{
 					Console.WriteLine("arguments are missing\n");
 					continue;
 				}
-				else if (items.Length > 3)
+				else if (items.Length > 5)
 				{
 					Console.WriteLine("too many arguments\n");
 					continue;
@@ -108,7 +108,7 @@ namespace Assignment1
 				bool correct = DateTime.TryParse(items[2].Trim(), out DateTime submissionDate);
 				if (!correct)
 				{
-					Console.WriteLine("submission date is not a valid date, skipping line");
+					Console.WriteLine("submission date is not a valid date, skipping line\n");
 					continue;
 				}
 				if (submissionDate <= DateTime.Now || submissionDate >= DateTime.Now.AddYears(100))
@@ -117,12 +117,28 @@ namespace Assignment1
 					continue;
 				}
 
+				correct = Decimal.TryParse(items[3].Trim(), out decimal oralMark);
+				if (!correct)
+				{
+					Console.WriteLine("oral mark is not a valid number\n");
+					continue;
+				}
+
+				correct = decimal.TryParse(items[4].Trim(), out decimal totalMark);
+				if (!correct)
+				{
+					Console.WriteLine("total mark is not a valid number\n");
+					continue;
+				}
+
 				//create the new assignment
 				Assignment a = new Assignment()
 				{
 					Title = title,
 					Description = description,
-					SubmissionDateAndTime = submissionDate
+					SubmissionDateAndTime = submissionDate,
+					OralMark = oralMark,
+					TotalMark = totalMark
 				};
 
 				//save it to the list
@@ -160,12 +176,12 @@ namespace Assignment1
 
 				string[] items = input.Split('-');
 
-				if (items.Length < 3)
+				if (items.Length < 5)
 				{
 					Console.WriteLine("An argument is missing\n");
 					continue;
 				}
-				else if (items.Length > 3)
+				else if (items.Length > 5)
 				{
 					Console.WriteLine("too many arguments\n");
 					continue;
@@ -192,11 +208,27 @@ namespace Assignment1
 					continue;
 				}
 
+				correct = Decimal.TryParse(items[3].Trim(), out decimal oralMark);
+				if (!correct)
+				{
+					Console.WriteLine("oral mark is not a valid number\n");
+					continue;
+				}
+
+				correct = decimal.TryParse(items[4].Trim(), out decimal totalMark);
+				if (!correct)
+				{
+					Console.WriteLine("total mark is not a valid number\n");
+					continue;
+				}
+
 				Assignment a = new Assignment()
 				{
 					Title = title,
 					Description = description,
-					SubmissionDateAndTime = submissionDate
+					SubmissionDateAndTime = submissionDate,
+					OralMark = oralMark,
+					TotalMark = totalMark
 				};
 
 				SchoolUI.AssignmentList.Add(a);

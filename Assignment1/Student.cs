@@ -16,7 +16,7 @@ namespace Assignment1
 
 		public DateTime DateOfBirth { get; set; }
 
-		public double TuitionFess { get; set; }
+		public decimal TuitionFess { get; set; }
 
 		public List<int> CourseCodes { get; set; }
 

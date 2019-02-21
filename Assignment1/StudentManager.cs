@@ -119,7 +119,7 @@ namespace Assignment1
 				}
 
 				//check the validity of tuition
-				correct = Double.TryParse(items[3], NumberStyles.Any, CultureInfo.InvariantCulture, out double fees);
+				correct = Decimal.TryParse(items[3], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal fees);
 				if (!correct)
 				{
 					Console.WriteLine($"Line {position}: the tuition are not a number, skipping line");
@@ -215,7 +215,7 @@ namespace Assignment1
 				}
 
 				//check type validity of tuition
-				correct = Double.TryParse(items[3].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out double tuition);
+				correct = Decimal.TryParse(items[3].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out decimal tuition);
 				if (!correct)
 				{
 					Console.WriteLine("Tuition is not a valid number\n");
