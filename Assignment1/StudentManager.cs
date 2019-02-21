@@ -61,7 +61,7 @@ namespace Assignment1
 
 			//get the path to the file with students
 			string path = Path.Combine(current, @"..\..\Data\autostudents.txt");
-			string[] allStudents = new string[1];
+			string[] allStudents = new string[0];
 
 			//try to read the lines of the file
 			try
@@ -83,6 +83,14 @@ namespace Assignment1
 			{
 				bool correct;
 				string[] items = line.Split('-');
+
+				//check if something is missing
+				if (items.Length < 4)
+				{
+					Console.WriteLine("An argument is missing\n");
+					continue;
+				}
+
 				string fname = items[0];
 				string lname = items[1];
 
@@ -130,7 +138,7 @@ namespace Assignment1
 				SchoolUI.StudentList.Add(s);
 
 			}
-			//check if any student got added
+			//check if any students got added
 			if (SchoolUI.StudentList.Count == sizeBefore)
 			{
 				Console.WriteLine("Couldn't auto save any students from the file");

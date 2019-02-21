@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Globalization;
 
 namespace Assignment1
 {
@@ -12,6 +7,7 @@ namespace Assignment1
 	{
 		public static void InputTrainers()
 		{
+			//check user choice for manual or auto input
 			string option = SchoolUI.ManualOrAuto("trainers");
 
 			if (option.Equals("a") || option.Equals("A"))
@@ -28,6 +24,7 @@ namespace Assignment1
 
 		public static void ShowTrainers(bool inFull)
 		{
+			//check if trainers exist
 			if (SchoolUI.TrainerList.Count < 1)
 			{
 				Console.WriteLine("No trainers yet\n");
@@ -36,6 +33,7 @@ namespace Assignment1
 
 			Console.WriteLine("TRAINERS");
 
+			//prnt every trainer, all details or only first and last name
 			foreach (Trainer t in SchoolUI.TrainerList)
 			{
 				if (inFull)
@@ -52,11 +50,14 @@ namespace Assignment1
 
 		private static void AutoFillTrainers()
 		{
+			//currect directory
 			string current = Directory.GetCurrentDirectory();
 
+			//the path to the file with the trainers for auto import
 			string path = Path.Combine(current, @"..\..\Data\autotrainers.txt");
 
-			string[] allTrainers = new string[1];
+			//read the lines of the file
+			string[] allTrainers = new string[0];
 			try
 			{
 				allTrainers = File.ReadAllLines(path);
@@ -66,14 +67,34 @@ namespace Assignment1
 				Console.WriteLine("auto trainers file not found\n");
 				return;
 			}
+			//get the size of trainers list, we need for later
+			int sizeBefore = SchoolUI.TrainerList.Count;
 
+			//for every trainer
 			foreach (string line in allTrainers)
 			{
+				//split the line and save the parts in an array
 				string[] items = line.Split('-');
-				string fname = items[0];
-				string lname = items[1];
-				string subject = items[2];
 
+				//check if arguments are missing
+				if (items.Length < 3)
+				{
+					Console.WriteLine("arguments are missing\n");
+					continue;
+				}
+
+				string fname = items[0].Trim();
+				string lname = items[1].Trim();
+				string subject = items[2].Trim();
+
+				//check if trainer exists already
+				if (TrainerExists(fname,lname))
+				{
+					Console.WriteLine($"{fname} {lname} exists already\n");
+					continue;
+				}
+
+				//create a new trainer
 				Trainer t = new Trainer()
 				{
 
@@ -82,29 +103,31 @@ namespace Assignment1
 					Subject = subject
 				};
 
+				//add it to the list
 				SchoolUI.TrainerList.Add(t);
 
 			}
-			if (SchoolUI.TrainerList.Count < 1)
+			//check if we added any trainers
+			if (SchoolUI.TrainerList.Count == sizeBefore)
 			{
-				Console.WriteLine("Couldn't auto save any trainers");
+				Console.WriteLine("Couldn't auto save any trainers from the file");
 			}
 			else
 			{
-				Console.WriteLine($"Successfully saved {SchoolUI.TrainerList.Count} trainers");
+				Console.WriteLine($"Successfully saved {SchoolUI.TrainerList.Count - sizeBefore} new trainers");
 			}
 			Console.WriteLine();
 		}
 
 		private static void ManualFillTrainers()
 		{
-			Trainer t;
 			while (true)
 			{
 				Console.WriteLine("type a new trainer");
 				Console.WriteLine("firstName - lastName - Subject");
 				Console.WriteLine("to quit type 'exit' or '0' and hit Enter");
 
+				//get user input for new trainer
 				string input = Console.ReadLine();
 
 				if (input.Trim().Equals("exit") || input.Trim().Equals("0"))
@@ -112,8 +135,10 @@ namespace Assignment1
 					break;
 				}
 
+				//split the input and save it to an array
 				string[] items = input.Split('-');
 
+				//check if arguments are missing
 				if (items.Length < 3)
 				{
 					Console.WriteLine("An argument is missing\n");
@@ -125,7 +150,13 @@ namespace Assignment1
 				string lname = items[1].Trim();
 				string subject = items[2].Trim();
 
-				t = new Trainer()
+				if (TrainerExists(fname,lname))
+				{
+					Console.WriteLine($"trainer {fname} {lname} already exists\n");
+					continue;
+				}
+
+				Trainer t = new Trainer()
 				{
 					FirstName = fname,
 					LastName = lname,
@@ -136,6 +167,19 @@ namespace Assignment1
 
 				Console.WriteLine($"Trainer {t.FirstName} {t.LastName} saved\n");
 			}
+		}
+
+		private static bool TrainerExists(string firstname, string lastname)
+		{
+			//check if trainer exists for this firstname and lastname
+			foreach (Trainer tr in SchoolUI.TrainerList)
+			{
+				if (tr.FirstName.Equals(firstname) && tr.LastName.Equals(lastname))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }
