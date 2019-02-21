@@ -82,6 +82,11 @@ namespace Assignment1
 					Console.WriteLine("arguments missing");
 					continue;
 				}
+				else if (items.Length > 5)
+				{
+					Console.WriteLine("too many arguments\n");
+					continue;
+				}
 
 				string title = items[0].Trim();
 
@@ -158,6 +163,11 @@ namespace Assignment1
 				if (items.Length < 5)
 				{
 					Console.WriteLine("arguments missing\n");
+					continue;
+				}
+				else if (items.Length > 5)
+				{
+					Console.WriteLine("too many arguments\n");
 					continue;
 				}
 

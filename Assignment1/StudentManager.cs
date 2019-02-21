@@ -86,6 +86,11 @@ namespace Assignment1
 					Console.WriteLine("An argument is missing\n");
 					continue;
 				}
+				else if (items.Length > 4)
+				{
+					Console.WriteLine("too many arguments\n");
+					continue;
+				}
 
 				string fname = items[0];
 				string lname = items[1];
@@ -173,6 +178,11 @@ namespace Assignment1
 				if (items.Length < 4)
 				{
 					Console.WriteLine("An argument is missing\n");
+					continue;
+				}
+				else if (items.Length > 4)
+				{
+					Console.WriteLine("too many arguements\n");
 					continue;
 				}
 

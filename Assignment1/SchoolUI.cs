@@ -241,7 +241,12 @@ namespace Assignment1
 				string[] items = input.Split('-');
 				if (items.Length < 2)
 				{
-					Console.WriteLine("something is missing\n");
+					Console.WriteLine("argument is missing\n");
+					continue;
+				}
+				else if (items.Length > 2)
+				{
+					Console.WriteLine("too many arguments\n");
 					continue;
 				}
 
@@ -377,6 +382,11 @@ namespace Assignment1
 				{
 					Console.WriteLine("arguments missing\n");
 				}
+				else if (items.Length > 2)
+				{
+					Console.WriteLine("too many arguments\n");
+					continue;
+				}
 
 				correctInput = Int32.TryParse(items[0].Trim(), out int TrainerCode);
 				if (!correctInput)
@@ -482,6 +492,11 @@ namespace Assignment1
 				if (items.Length < 2)
 				{
 					Console.WriteLine("arguments missing");
+					continue;
+				}
+				else if (items.Length > 2)
+				{
+					Console.WriteLine("too many arguments\n");
 					continue;
 				}
 
@@ -597,6 +612,11 @@ namespace Assignment1
 				if (items.Length < 3)
 				{
 					Console.WriteLine("arguments missing\n");
+					continue;
+				}
+				else if (items.Length > 3)
+				{
+					Console.WriteLine("too many arguments\n");
 					continue;
 				}
 
