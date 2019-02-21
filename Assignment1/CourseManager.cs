@@ -64,7 +64,14 @@ namespace Assignment1
 			}
 			catch (FileNotFoundException)
 			{
-				Console.WriteLine("auto courses file not found\n");
+				Console.WriteLine("autocourses.txt file not found");
+				Console.WriteLine("this program searcher for an autocourses.txt file in '..\\..\\Data' relative to the application\n");
+				return;
+			}
+			catch (DirectoryNotFoundException)
+			{
+				Console.WriteLine("directory 'Data' not found");
+				Console.WriteLine("this program searcher for an autocourses.txt file in '..\\..\\Data' relative to the application\n");
 				return;
 			}
 

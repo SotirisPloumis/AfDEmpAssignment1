@@ -54,7 +54,7 @@ namespace Assignment1
 			string current = Directory.GetCurrentDirectory();
 
 			//the path to the file with the trainers for auto import
-			string path = Path.Combine(current, @"..\..\Data\autotrainers.txt");
+			string path = Path.Combine(current, @"..\..\Dataa\autotrainers.txt");
 
 			//read the lines of the file
 			string[] allTrainers;
@@ -64,9 +64,17 @@ namespace Assignment1
 			}
 			catch (FileNotFoundException)
 			{
-				Console.WriteLine("auto trainers file not found\n");
+				Console.WriteLine("autotrainers.txt file not found");
+				Console.WriteLine("this program searcher for an autotrainers.txt file in '..\\..\\Data' relative to the application\n");
 				return;
 			}
+			catch (DirectoryNotFoundException)
+			{
+				Console.WriteLine("directory 'Data' not found");
+				Console.WriteLine("this program searcher for an autotrainers.txt file in '..\\..\\Data' relative to the application\n");
+				return;
+			}
+
 			//get the size of trainers list, we need for later
 			int sizeBefore = SchoolUI.TrainerList.Count;
 
