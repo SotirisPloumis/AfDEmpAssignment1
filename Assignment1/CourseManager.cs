@@ -69,20 +69,38 @@ namespace Assignment1
 			}
 
 			int position = 0;
+
+			int sizeBefore = SchoolUI.CourseList.Count;
+
 			foreach (string line in allCourses)
 			{
 				position++;
 				string[] items = line.Split('-');
-				string title = items[0];
-				string stream = items[1];
-				string type = items[2];
-				bool correct = DateTime.TryParse(items[3], out DateTime startDate);
+
+				if (items.Length < 5)
+				{
+					Console.WriteLine("arguments missing");
+					continue;
+				}
+
+				string title = items[0].Trim();
+
+				if (CourseExists(title))
+				{
+					Console.WriteLine($"course {title} exists already");
+					continue;
+				}
+
+				string stream = items[1].Trim();
+				string type = items[2].Trim();
+
+				bool correct = DateTime.TryParse(items[3].Trim(), out DateTime startDate);
 				if (!correct)
 				{
 					Console.WriteLine($"Line {position}: start date is not correct, skipping line");
 					continue;
 				}
-				correct = DateTime.TryParse(items[4], out DateTime endDate);
+				correct = DateTime.TryParse(items[4].Trim(), out DateTime endDate);
 				if (!correct)
 				{
 					Console.WriteLine($"Line {position}: end date is not correct, skipping line");
@@ -108,13 +126,13 @@ namespace Assignment1
 				SchoolUI.CourseList.Add(c);
 
 			}
-			if (SchoolUI.CourseList.Count < 1)
+			if (SchoolUI.CourseList.Count == sizeBefore)
 			{
-				Console.WriteLine("Couldn't auto save any courses");
+				Console.WriteLine("Couldn't auto save any new courses");
 			}
 			else
 			{
-				Console.WriteLine($"Successfully saved {SchoolUI.CourseList.Count} courses");
+				Console.WriteLine($"Successfully saved {SchoolUI.CourseList.Count - sizeBefore} new courses");
 			}
 			Console.WriteLine();
 		}
@@ -139,11 +157,18 @@ namespace Assignment1
 
 				if (items.Length < 5)
 				{
-					Console.WriteLine("An argument is missing\n");
+					Console.WriteLine("arguments missing\n");
 					continue;
 				}
 
 				string title = items[0].Trim();
+
+				if (CourseExists(title))
+				{
+					Console.WriteLine($"course {title} exists already");
+					continue;
+				}
+
 				string stream = items[1].Trim();
 				string type = items[2].Trim();
 
@@ -161,6 +186,12 @@ namespace Assignment1
 					continue;
 				}
 
+				if (startDate >= endDate)
+				{
+					Console.WriteLine("start date is after end date\n");
+					continue;
+				}
+
 				c = new Course()
 				{
 					Title = title,
@@ -174,6 +205,18 @@ namespace Assignment1
 
 				Console.WriteLine($"Course {c.Title} saved\n");
 			}
+		}
+
+		private static bool CourseExists(string title)
+		{
+			foreach (Course c in SchoolUI.CourseList)
+			{
+				if (c.Title.Equals(title))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }
