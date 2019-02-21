@@ -38,7 +38,9 @@ namespace Assignment1
 			{
 				if (inFull)
 				{
-					Console.WriteLine($"{SchoolUI.AssignmentList.IndexOf(a) + 1}: Title: {a.Title}, Desciption: {a.Description}, due {a.SubmissionDateAndTime}");
+					Console.Write($"{SchoolUI.AssignmentList.IndexOf(a) + 1}: Title: {a.Title}, ");
+					Console.Write($"Desciption: {a.Description}, due {a.SubmissionDateAndTime}, ");
+					Console.WriteLine($"oral mark {a.OralMark}, total mark {a.TotalMark}");
 				}
 				else
 				{
@@ -140,7 +142,7 @@ namespace Assignment1
 					OralMark = oralMark,
 					TotalMark = totalMark
 				};
-
+				
 				//save it to the list
 				SchoolUI.AssignmentList.Add(a);
 
