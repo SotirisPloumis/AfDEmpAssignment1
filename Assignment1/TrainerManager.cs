@@ -17,10 +17,12 @@ namespace Assignment1
 			if (option.Equals("a") || option.Equals("A"))
 			{
 				AutoFillTrainers();
+				Console.ReadKey();
 			}
 			else
 			{
 				ManualFillTrainers();
+				Console.WriteLine();
 			}
 		}
 
