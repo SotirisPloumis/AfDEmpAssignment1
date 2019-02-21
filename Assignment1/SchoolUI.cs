@@ -760,25 +760,34 @@ namespace Assignment1
 				DayOfWeek.Sunday
 			};
 
-			
-
 			bool goodDate;
 			DateTime date;
 			string dateInput;
 
-			do
+			while (true)
 			{
 				Console.WriteLine("input a date to check for submissions (day/month/year)");
-				Console.WriteLine("to quit type '0'\n");
+				Console.WriteLine("to quit type '0' or 'exit'\n");
 
-				dateInput = Console.ReadLine();
-				if (dateInput.Equals("0"))
+				dateInput = Console.ReadLine().Trim();
+
+				if (dateInput.Equals(String.Empty))
+				{
+					continue;
+				}
+
+				if (dateInput.Equals("0") || dateInput.Equals("exit"))
 				{
 					return;
 				}
 
 
 				goodDate = DateTime.TryParse(dateInput, out date);
+				if (!goodDate)
+				{
+					Console.WriteLine("bad date input\n");
+					continue;
+				}
 
 				//dayDistance is the index of the day in the week
 				//it actualy represents the distance of the input date from the closest previous Monday
@@ -815,7 +824,7 @@ namespace Assignment1
 
 				Console.WriteLine();
 
-			} while (!dateInput.Equals("0"));
+			}
 
 			
 		}
