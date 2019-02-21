@@ -1,9 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Globalization;
 
 namespace Assignment1
@@ -61,7 +57,7 @@ namespace Assignment1
 
 			//get the path to the file with students
 			string path = Path.Combine(current, @"..\..\Data\autostudents.txt");
-			string[] allStudents = new string[0];
+			string[] allStudents;
 
 			//try to read the lines of the file
 			try

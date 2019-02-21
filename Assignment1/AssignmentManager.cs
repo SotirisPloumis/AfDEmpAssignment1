@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Globalization;
 
 namespace Assignment1
 {
@@ -12,6 +7,7 @@ namespace Assignment1
 	{
 		public static void InputAssignments()
 		{
+			//check user choice for manual or auto inut
 			string option = SchoolUI.ManualOrAuto("assignments");
 
 			if (option.Equals("a") || option.Equals("a"))
@@ -28,6 +24,7 @@ namespace Assignment1
 
 		public static void ShowAssignments(bool inFull)
 		{
+			//check if assignments exist
 			if (SchoolUI.AssignmentList.Count < 1)
 			{
 				Console.WriteLine("No assignments yet\n");
@@ -36,6 +33,7 @@ namespace Assignment1
 
 			Console.WriteLine("ASSIGNMENTS");
 
+			//print assignments with all details or only title
 			foreach (Assignment a in SchoolUI.AssignmentList)
 			{
 				if (inFull)
@@ -52,12 +50,15 @@ namespace Assignment1
 
 		private static void AutoFillAssignments()
 		{
+			//current direcotry
 			string current = Directory.GetCurrentDirectory();
 
+			//path to the file for auto import of assignments
 			string path = Path.Combine(current, @"..\..\Data\autoassignments.txt");
 
 			string[] allAssignments;
 
+			//try to read all the lines of the file
 			try
 			{
 				allAssignments = File.ReadAllLines(path);
@@ -69,13 +70,37 @@ namespace Assignment1
 			}
 
 			int position = 0;
+
+			//size of assignmentsList, we 'll need for later
+			int sizeBefore = SchoolUI.AssignmentList.Count;
+
+			//for every line...
 			foreach (string line in allAssignments)
 			{
 				position++;
+
+				//split the line into pieces and save it to an array
 				string[] items = line.Split('-');
-				string title = items[0];
-				string description = items[1];
-				bool correct = DateTime.TryParse(items[2], out DateTime submissionDate);
+
+				//check if arguments are missing
+				if (items.Length < 3)
+				{
+					Console.WriteLine("arguments are missing\n");
+					continue;
+				}
+
+				string title = items[0].Trim();
+
+				//check if assignment exists already
+				if (AssignmentExists(title))
+				{
+					Console.WriteLine($"assignmet {title} exists already\n");
+					continue;
+				}
+
+				string description = items[1].Trim();
+
+				bool correct = DateTime.TryParse(items[2].Trim(), out DateTime submissionDate);
 				if (!correct)
 				{
 					Console.WriteLine("submission date is not a valid date, skipping line");
@@ -87,25 +112,27 @@ namespace Assignment1
 					continue;
 				}
 
-
+				//create the new assignment
 				Assignment a = new Assignment()
 				{
-
 					Title = title,
 					Description = description,
 					SubmissionDateAndTime = submissionDate
 				};
 
+				//save it to the list
 				SchoolUI.AssignmentList.Add(a);
 
 			}
-			if (SchoolUI.AssignmentList.Count < 1)
+
+			//check if we saved any new assignments
+			if (SchoolUI.AssignmentList.Count == sizeBefore)
 			{
-				Console.WriteLine("Couldn't auto save any assignments");
+				Console.WriteLine("Couldn't auto save any new assignments");
 			}
 			else
 			{
-				Console.WriteLine($"Successfully saved {SchoolUI.AssignmentList.Count} assignments");
+				Console.WriteLine($"Successfully saved {SchoolUI.AssignmentList.Count - sizeBefore} new assignments");
 			}
 			Console.WriteLine();
 
@@ -113,7 +140,6 @@ namespace Assignment1
 
 		private static void ManualFillAssignments()
 		{
-			Assignment a;
 			while (true)
 			{
 				Console.WriteLine("type a new assignment");
@@ -136,7 +162,14 @@ namespace Assignment1
 				}
 
 				string title = items[0].Trim();
+				if (AssignmentExists(title))
+				{
+					Console.WriteLine($"assignment {title} already exists\n");
+					continue;
+				}
+
 				string description = items[1].Trim();
+
 				bool correct = DateTime.TryParse(items[2].Trim(), out DateTime submissionDate);
 				if (!correct)
 				{
@@ -149,7 +182,7 @@ namespace Assignment1
 					continue;
 				}
 
-				a = new Assignment()
+				Assignment a = new Assignment()
 				{
 					Title = title,
 					Description = description,
@@ -160,6 +193,18 @@ namespace Assignment1
 
 				Console.WriteLine($"Assignment {a.Title} saved\n");
 			}
+		}
+
+		private static bool AssignmentExists(string title)
+		{
+			foreach (Assignment a in SchoolUI.AssignmentList)
+			{
+				if (a.Title.Equals(title))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }

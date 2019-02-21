@@ -57,7 +57,7 @@ namespace Assignment1
 			string path = Path.Combine(current, @"..\..\Data\autotrainers.txt");
 
 			//read the lines of the file
-			string[] allTrainers = new string[0];
+			string[] allTrainers;
 			try
 			{
 				allTrainers = File.ReadAllLines(path);
@@ -110,7 +110,7 @@ namespace Assignment1
 			//check if we added any trainers
 			if (SchoolUI.TrainerList.Count == sizeBefore)
 			{
-				Console.WriteLine("Couldn't auto save any trainers from the file");
+				Console.WriteLine("Couldn't auto save any new trainers from the file");
 			}
 			else
 			{
