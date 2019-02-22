@@ -1,2 +1,2 @@
-school system - Implement a program that manages a school with students, trainers, assignments, etc. - 22/2/2019-25-100
+school system - Implement a program that manages a school with students, trainers, assignments, etc. - 24/2/2019-25-100
 flight booking - Implement a program that manages flight bookings and payments. - 10/5/2019-20-100

@@ -125,6 +125,13 @@ namespace Assignment1
 					Console.WriteLine($"{submissionDate} doesn't make sense for submission date\n");
 					continue;
 				}
+				//submission date on weekend is not allowed
+				DayOfWeek dayOfSubmission = submissionDate.DayOfWeek;
+				if (dayOfSubmission == DayOfWeek.Saturday || dayOfSubmission == DayOfWeek.Sunday)
+				{
+					Console.WriteLine("submission day cannot be on a weekend\n");
+					continue;
+				}
 
 				correct = Decimal.TryParse(items[3].Trim(), out decimal oralMark);
 				if (!correct)
@@ -173,7 +180,7 @@ namespace Assignment1
 			while (true)
 			{
 				Console.WriteLine("type a new assignment");
-				Console.WriteLine("Title - description - day/month/year");
+				Console.WriteLine("Title - description - day/month/year - oral mark - total mark");
 				Console.WriteLine("to quit type 'exit' or '0' and hit Enter");
 
 				string input = Console.ReadLine();
@@ -214,6 +221,13 @@ namespace Assignment1
 				if (submissionDate <= DateTime.Now || submissionDate >= DateTime.Now.AddYears(100))
 				{
 					Console.WriteLine($"{submissionDate} doesn't make sense for submission date\n");
+					continue;
+				}
+				//submission date on weekend is not allowed
+				DayOfWeek dayOfSubmission = submissionDate.DayOfWeek;
+				if (dayOfSubmission == DayOfWeek.Saturday || dayOfSubmission == DayOfWeek.Sunday)
+				{
+					Console.WriteLine("submission day cannot be on a weekend\n");
 					continue;
 				}
 
