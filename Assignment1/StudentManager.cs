@@ -6,11 +6,8 @@ namespace Assignment1
 {
 	static class StudentManager
 	{
-		public static void InputStudents()
+		public static void InputStudents(string option)
 		{
-			//get user choice for auto or manual input of students
-			string option = SchoolUI.ManualOrAuto("students");
-
 			if (option.Equals("a") || option.Equals("A"))
 			{
 				AutoFillStudents();
@@ -26,7 +23,7 @@ namespace Assignment1
 		public static void ShowStudents(bool inFull)
 		{
 			//check if students exist
-			if (SchoolUI.StudentList.Count < 1)
+			if (SchoolManager.StudentList.Count < 1)
 			{
 				Console.WriteLine("No students yet\n");
 				return;
@@ -35,15 +32,15 @@ namespace Assignment1
 			Console.WriteLine("STUDENTS");
 
 			//print all students, all info or only names
-			foreach (Student s in SchoolUI.StudentList)
+			foreach (Student s in SchoolManager.StudentList)
 			{
 				if (inFull)
 				{
-					Console.WriteLine($"{SchoolUI.StudentList.IndexOf(s) + 1}: {s.FirstName} {s.LastName}, born in {s.DateOfBirth}, pays: {s.TuitionFess}");
+					Console.WriteLine($"{SchoolManager.StudentList.IndexOf(s) + 1}: {s.FirstName} {s.LastName}, born in {s.DateOfBirth}, pays: {s.TuitionFess}");
 				}
 				else
 				{
-					Console.WriteLine($"{SchoolUI.StudentList.IndexOf(s) + 1}: {s.FirstName} {s.LastName}");
+					Console.WriteLine($"{SchoolManager.StudentList.IndexOf(s) + 1}: {s.FirstName} {s.LastName}");
 				}
 
 			}
@@ -78,7 +75,7 @@ namespace Assignment1
 			}
 
 			//save the size before auto input, we need it for later
-			int sizeBefore = SchoolUI.StudentList.Count;
+			int sizeBefore = SchoolManager.StudentList.Count;
 
 			//for every line...
 			int position = 1;
@@ -143,17 +140,17 @@ namespace Assignment1
 				};
 
 				//add the student to the list
-				SchoolUI.StudentList.Add(s);
+				SchoolManager.StudentList.Add(s);
 
 			}
 			//check if any students got added
-			if (SchoolUI.StudentList.Count == sizeBefore)
+			if (SchoolManager.StudentList.Count == sizeBefore)
 			{
 				Console.WriteLine("Couldn't auto save any students from the file");
 			}
 			else
 			{
-				Console.WriteLine($"Successfully saved {SchoolUI.StudentList.Count - sizeBefore} new students");
+				Console.WriteLine($"Successfully saved {SchoolManager.StudentList.Count - sizeBefore} new students");
 			}
 			Console.WriteLine();
 
@@ -239,7 +236,7 @@ namespace Assignment1
 				};
 
 				//add the student to StudentList
-				SchoolUI.StudentList.Add(s);
+				SchoolManager.StudentList.Add(s);
 
 				//print result
 				Console.WriteLine($"Student {s.FirstName} {s.LastName} saved\n");
@@ -248,7 +245,7 @@ namespace Assignment1
 		private static bool StudentExists(string firstName,string lastName)
 		{
 			//criteria for existence is firstname,lastname
-			foreach (Student st in SchoolUI.StudentList)
+			foreach (Student st in SchoolManager.StudentList)
 			{
 				if (st.FirstName.Equals(firstName) && st.LastName.Equals(lastName))
 				{

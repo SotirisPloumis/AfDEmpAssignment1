@@ -46,10 +46,11 @@
     <Compile Include="Assignment.cs" />
     <Compile Include="AssignmentManager.cs" />
     <Compile Include="ConnectionMenuOptions.cs" />
+    <Compile Include="ConsoleUI.cs" />
     <Compile Include="CourseManager.cs" />
     <Compile Include="MenuOptions.cs" />
     <Compile Include="Course.cs" />
-    <Compile Include="SchoolUI.cs" />
+    <Compile Include="SchoolManager.cs" />
     <Compile Include="StudentManager.cs" />
     <Compile Include="Trainer.cs" />
     <Compile Include="Program.cs" />

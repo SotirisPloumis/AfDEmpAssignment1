@@ -5,11 +5,8 @@ namespace Assignment1
 {
 	static class AssignmentManager
 	{
-		public static void InputAssignments()
+		public static void InputAssignments(string option)
 		{
-			//check user choice for manual or auto inut
-			string option = SchoolUI.ManualOrAuto("assignments");
-
 			if (option.Equals("a") || option.Equals("a"))
 			{
 				AutoFillAssignments();
@@ -25,7 +22,7 @@ namespace Assignment1
 		public static void ShowAssignments(bool inFull)
 		{
 			//check if assignments exist
-			if (SchoolUI.AssignmentList.Count < 1)
+			if (SchoolManager.AssignmentList.Count < 1)
 			{
 				Console.WriteLine("No assignments yet\n");
 				return;
@@ -34,17 +31,17 @@ namespace Assignment1
 			Console.WriteLine("ASSIGNMENTS");
 
 			//print assignments with all details or only title
-			foreach (Assignment a in SchoolUI.AssignmentList)
+			foreach (Assignment a in SchoolManager.AssignmentList)
 			{
 				if (inFull)
 				{
-					Console.Write($"{SchoolUI.AssignmentList.IndexOf(a) + 1}: Title: {a.Title}, ");
+					Console.Write($"{SchoolManager.AssignmentList.IndexOf(a) + 1}: Title: {a.Title}, ");
 					Console.Write($"Desciption: {a.Description}, due {a.SubmissionDateAndTime}, ");
 					Console.WriteLine($"oral mark {a.OralMark}, total mark {a.TotalMark}");
 				}
 				else
 				{
-					Console.WriteLine($"{SchoolUI.AssignmentList.IndexOf(a) + 1}: Title: {a.Title}");
+					Console.WriteLine($"{SchoolManager.AssignmentList.IndexOf(a) + 1}: Title: {a.Title}");
 				}
 			}
 			Console.WriteLine();
@@ -81,7 +78,7 @@ namespace Assignment1
 			int position = 0;
 
 			//size of assignmentsList, we 'll need for later
-			int sizeBefore = SchoolUI.AssignmentList.Count;
+			int sizeBefore = SchoolManager.AssignmentList.Count;
 
 			//for every line...
 			foreach (string line in allAssignments)
@@ -158,18 +155,18 @@ namespace Assignment1
 				};
 				
 				//save it to the list
-				SchoolUI.AssignmentList.Add(a);
+				SchoolManager.AssignmentList.Add(a);
 
 			}
 
 			//check if we saved any new assignments
-			if (SchoolUI.AssignmentList.Count == sizeBefore)
+			if (SchoolManager.AssignmentList.Count == sizeBefore)
 			{
 				Console.WriteLine("Couldn't auto save any new assignments");
 			}
 			else
 			{
-				Console.WriteLine($"Successfully saved {SchoolUI.AssignmentList.Count - sizeBefore} new assignments");
+				Console.WriteLine($"Successfully saved {SchoolManager.AssignmentList.Count - sizeBefore} new assignments");
 			}
 			Console.WriteLine();
 
@@ -254,7 +251,7 @@ namespace Assignment1
 					TotalMark = totalMark
 				};
 
-				SchoolUI.AssignmentList.Add(a);
+				SchoolManager.AssignmentList.Add(a);
 
 				Console.WriteLine($"Assignment {a.Title} saved\n");
 			}
@@ -262,7 +259,7 @@ namespace Assignment1
 
 		private static bool AssignmentExists(string title)
 		{
-			foreach (Assignment a in SchoolUI.AssignmentList)
+			foreach (Assignment a in SchoolManager.AssignmentList)
 			{
 				if (a.Title.Equals(title))
 				{

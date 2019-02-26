@@ -10,21 +10,7 @@ namespace Assignment1
 	{
 		static void Main(string[] args)
 		{
-			SchoolUI.Greet();
-
-			int choice;
-			MenuOptions MainOption;
-			
-
-			do
-			{
-				choice = SchoolUI.ShowMenuAndChoose();
-				MainOption = (MenuOptions)choice;
-
-				SchoolUI.DoMainAction(MainOption);
-
-			} while (MenuOptions.Exit != MainOption);
+			ConsoleUI.StartConsoleUI();
 		}
-
 	}
 }

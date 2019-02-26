@@ -5,11 +5,8 @@ namespace Assignment1
 {
 	class TrainerManager
 	{
-		public static void InputTrainers()
+		public static void InputTrainers(string option)
 		{
-			//check user choice for manual or auto input
-			string option = SchoolUI.ManualOrAuto("trainers");
-
 			if (option.Equals("a") || option.Equals("A"))
 			{
 				AutoFillTrainers();
@@ -25,7 +22,7 @@ namespace Assignment1
 		public static void ShowTrainers(bool inFull)
 		{
 			//check if trainers exist
-			if (SchoolUI.TrainerList.Count < 1)
+			if (SchoolManager.TrainerList.Count < 1)
 			{
 				Console.WriteLine("No trainers yet\n");
 				return;
@@ -34,15 +31,15 @@ namespace Assignment1
 			Console.WriteLine("TRAINERS");
 
 			//prnt every trainer, all details or only first and last name
-			foreach (Trainer t in SchoolUI.TrainerList)
+			foreach (Trainer t in SchoolManager.TrainerList)
 			{
 				if (inFull)
 				{
-					Console.WriteLine($"{SchoolUI.TrainerList.IndexOf(t) + 1}: {t.FirstName} {t.LastName}, teaches {t.Subject}");
+					Console.WriteLine($"{SchoolManager.TrainerList.IndexOf(t) + 1}: {t.FirstName} {t.LastName}, teaches {t.Subject}");
 				}
 				else
 				{
-					Console.WriteLine($"{SchoolUI.TrainerList.IndexOf(t) + 1}: {t.FirstName} {t.LastName}");
+					Console.WriteLine($"{SchoolManager.TrainerList.IndexOf(t) + 1}: {t.FirstName} {t.LastName}");
 				}
 			}
 			Console.WriteLine();
@@ -76,7 +73,7 @@ namespace Assignment1
 			}
 
 			//get the size of trainers list, we need for later
-			int sizeBefore = SchoolUI.TrainerList.Count;
+			int sizeBefore = SchoolManager.TrainerList.Count;
 
 			//for every trainer
 			foreach (string line in allTrainers)
@@ -117,17 +114,17 @@ namespace Assignment1
 				};
 
 				//add it to the list
-				SchoolUI.TrainerList.Add(t);
+				SchoolManager.TrainerList.Add(t);
 
 			}
 			//check if we added any trainers
-			if (SchoolUI.TrainerList.Count == sizeBefore)
+			if (SchoolManager.TrainerList.Count == sizeBefore)
 			{
 				Console.WriteLine("Couldn't auto save any new trainers from the file");
 			}
 			else
 			{
-				Console.WriteLine($"Successfully saved {SchoolUI.TrainerList.Count - sizeBefore} new trainers");
+				Console.WriteLine($"Successfully saved {SchoolManager.TrainerList.Count - sizeBefore} new trainers");
 			}
 			Console.WriteLine();
 		}
@@ -180,7 +177,7 @@ namespace Assignment1
 					Subject = subject
 				};
 
-				SchoolUI.TrainerList.Add(t);
+				SchoolManager.TrainerList.Add(t);
 
 				Console.WriteLine($"Trainer {t.FirstName} {t.LastName} saved\n");
 			}
@@ -189,7 +186,7 @@ namespace Assignment1
 		private static bool TrainerExists(string firstname, string lastname)
 		{
 			//check if trainer exists for this firstname and lastname
-			foreach (Trainer tr in SchoolUI.TrainerList)
+			foreach (Trainer tr in SchoolManager.TrainerList)
 			{
 				if (tr.FirstName.Equals(firstname) && tr.LastName.Equals(lastname))
 				{

@@ -10,10 +10,8 @@ namespace Assignment1
 {
 	static class CourseManager
 	{
-		public static void InputCourses()
+		public static void InputCourses(string option)
 		{
-			string option = SchoolUI.ManualOrAuto("courses");
-
 			if (option.Equals("a") || option.Equals("A"))
 			{
 				AutoFillCourses();
@@ -28,7 +26,7 @@ namespace Assignment1
 
 		public static void ShowCourses(bool inFull)
 		{
-			if (SchoolUI.CourseList.Count < 1)
+			if (SchoolManager.CourseList.Count < 1)
 			{
 				Console.WriteLine("No courses yet\n");
 				return;
@@ -36,15 +34,15 @@ namespace Assignment1
 
 			Console.WriteLine("COURSES");
 
-			foreach (Course c in SchoolUI.CourseList)
+			foreach (Course c in SchoolManager.CourseList)
 			{
 				if (inFull)
 				{
-					Console.WriteLine($"{SchoolUI.CourseList.IndexOf(c) + 1}: Title: {c.Title}, Stream: {c.Stream}, type: {c.Type}, starts {c.StartDate}, ends {c.EndDate}");
+					Console.WriteLine($"{SchoolManager.CourseList.IndexOf(c) + 1}: Title: {c.Title}, Stream: {c.Stream}, type: {c.Type}, starts {c.StartDate}, ends {c.EndDate}");
 				}
 				else
 				{
-					Console.WriteLine($"{SchoolUI.CourseList.IndexOf(c) + 1}: Title: {c.Title}");
+					Console.WriteLine($"{SchoolManager.CourseList.IndexOf(c) + 1}: Title: {c.Title}");
 				}
 			}
 			Console.WriteLine();
@@ -77,7 +75,7 @@ namespace Assignment1
 
 			int position = 0;
 
-			int sizeBefore = SchoolUI.CourseList.Count;
+			int sizeBefore = SchoolManager.CourseList.Count;
 
 			foreach (string line in allCourses)
 			{
@@ -135,16 +133,16 @@ namespace Assignment1
 					EndDate = endDate
 				};
 
-				SchoolUI.CourseList.Add(c);
+				SchoolManager.CourseList.Add(c);
 
 			}
-			if (SchoolUI.CourseList.Count == sizeBefore)
+			if (SchoolManager.CourseList.Count == sizeBefore)
 			{
 				Console.WriteLine("Couldn't auto save any new courses");
 			}
 			else
 			{
-				Console.WriteLine($"Successfully saved {SchoolUI.CourseList.Count - sizeBefore} new courses");
+				Console.WriteLine($"Successfully saved {SchoolManager.CourseList.Count - sizeBefore} new courses");
 			}
 			Console.WriteLine();
 		}
@@ -218,7 +216,7 @@ namespace Assignment1
 					EndDate = endDate
 				};
 
-				SchoolUI.CourseList.Add(c);
+				SchoolManager.CourseList.Add(c);
 
 				Console.WriteLine($"Course {c.Title} saved\n");
 			}
@@ -226,7 +224,7 @@ namespace Assignment1
 
 		private static bool CourseExists(string title)
 		{
-			foreach (Course c in SchoolUI.CourseList)
+			foreach (Course c in SchoolManager.CourseList)
 			{
 				if (c.Title.Equals(title))
 				{

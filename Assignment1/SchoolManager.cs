@@ -8,129 +8,158 @@ using System.Threading.Tasks;
 
 namespace Assignment1
 {
-	static class SchoolUI
+	static class SchoolManager
 	{
 		public static List<Student> StudentList = new List<Student>();
 		public static List<Trainer> TrainerList = new List<Trainer>();
 		public static List<Assignment> AssignmentList = new List<Assignment>();
 		public static List<Course> CourseList = new List<Course>();
 
-		public static void Greet()
+		public static string GreetMessage()
 		{
-			Console.WriteLine("Welcome to School Manager 2019");
-			Console.WriteLine("Created by Sotiris Ploumis");
-			Console.WriteLine("Assignment 1 of the C# AfDEmp Bootcamp \n");
+			string Line1 = "Welcome to School Manager 2019\n";
+			string Line2 = "Created by Sotiris Ploumis\n";
+			string Line3 = "Assignment 1 of the C# AfDEmp Bootcamp \n";
+
+			StringBuilder s = new StringBuilder();
+			s.Append(Line1);
+			s.Append(Line2);
+			s.Append(Line3);
+
+			string message = s.ToString();
+
+			return message;
 		}
 
-		public static int ShowMenuAndChoose()
+		public static List<string> GetMainMenu()
 		{
-			Console.WriteLine("MAIN OPTIONS");
-
-			Console.WriteLine("1. Input students");
-			Console.WriteLine("2. Show all students");
-
-			Console.WriteLine("3. Input trainers");
-			Console.WriteLine("4. Show all trainers");
-
-			Console.WriteLine("5. Input assignments");
-			Console.WriteLine("6. Show all assignments");
-
-			Console.WriteLine("7. Input courses");
-			Console.WriteLine("8. Show all courses");
-
-			Console.WriteLine("9. Manage connections");
-
-			Console.WriteLine("10. Check date for submissions");
-
-			Console.WriteLine("0. Exit");
-
-			bool goodChoice;
-			int choice;
-			do
+			List<string> menu = new List<string>
 			{
-				string input = Console.ReadLine();
-				goodChoice = Int32.TryParse(input, out choice);
-			} while (!goodChoice || choice < 0 || choice > 10);
+				"1. Input students",
+				"2. Show all students",
+				"3. Input trainers",
+				"4. Show all trainers",
+				"5. Input assignments",
+				"6. Show all assignments",
+				"7. Input courses",
+				"8. Show all courses",
+				"9. Manage connections",
+				"10. Check date for submissions",
+				"0. Exit"
+			};
 
-			Console.WriteLine();
-			return choice;
+			return menu;
 		}
 
-		public static string ManualOrAuto(string element)
-		{
-			string option;
-			do
-			{
-				Console.WriteLine($"type 'm' to enter {element} manualy, or 'a' to get a default list");
+		//public static int ShowMenuAndChoose()
+		//{
+		//	Console.WriteLine("MAIN OPTIONS");
 
-				option = Console.ReadLine();
+		//	Console.WriteLine("1. Input students");
+		//	Console.WriteLine("2. Show all students");
 
-			} while (!option.Equals("m") && !option.Equals("a") && !option.Equals("A") && !option.Equals("M"));
+		//	Console.WriteLine("3. Input trainers");
+		//	Console.WriteLine("4. Show all trainers");
 
-			Console.WriteLine();
-			return option;
-		}
+		//	Console.WriteLine("5. Input assignments");
+		//	Console.WriteLine("6. Show all assignments");
 
-		public static void DoMainAction(MenuOptions MainOption)
-		{
-			switch (MainOption)
-			{
-				case MenuOptions.InputStudents:
-					StudentManager.InputStudents();
-					break;
-				case MenuOptions.ShowStudents:
-					StudentManager.ShowStudents(true);
-					Console.ReadKey();
-					break;
-				case MenuOptions.InputTrainers:
-					TrainerManager.InputTrainers();
-					break;
-				case MenuOptions.ShowTrainers:
-					TrainerManager.ShowTrainers(true);
-					Console.ReadKey();
-					break;
-				case MenuOptions.InputAssignments:
-					AssignmentManager.InputAssignments();
-					break;
-				case MenuOptions.ShowAssignments:
-					AssignmentManager.ShowAssignments(true);
-					Console.ReadKey();
-					break;
-				case MenuOptions.InputCourses:
-					CourseManager.InputCourses();
-					break;
-				case MenuOptions.ShowCourses:
-					CourseManager.ShowCourses(true);
-					Console.ReadKey();
-					break;
-				case MenuOptions.ManageConnections:
-					int ConnectChoice;
-					ConnectionMenuOptions connectOption;
+		//	Console.WriteLine("7. Input courses");
+		//	Console.WriteLine("8. Show all courses");
 
-					do
-					{
-						ConnectChoice = ShowConnectionsMenuAndChoose();
+		//	Console.WriteLine("9. Manage connections");
 
-						connectOption = (ConnectionMenuOptions)ConnectChoice;
+		//	Console.WriteLine("10. Check date for submissions");
 
-						DoConnectionAction(connectOption);
+		//	Console.WriteLine("0. Exit");
 
-					} while (connectOption != ConnectionMenuOptions.Exit);
+		//	bool goodChoice;
+		//	int choice;
+		//	do
+		//	{
+		//		string input = Console.ReadLine();
+		//		goodChoice = Int32.TryParse(input, out choice);
+		//	} while (!goodChoice || choice < 0 || choice > 10);
 
-					break;
-				case MenuOptions.CheckDateForSubmissions:
-					CheckDateForSubmissions();
-					break;
-				default:
-					break;
-			}
+		//	Console.WriteLine();
+		//	return choice;
+		//}
+
+		//public static string ManualOrAuto(string element)
+		//{
+		//	string option;
+		//	do
+		//	{
+		//		Console.WriteLine($"type 'm' to enter {element} manualy, or 'a' to get a default list");
+
+		//		option = Console.ReadLine();
+
+		//	} while (!option.Equals("m") && !option.Equals("a") && !option.Equals("A") && !option.Equals("M"));
+
+		//	Console.WriteLine();
+		//	return option;
+		//}
+
+		//public static void DoMainAction(MenuOptions MainOption)
+		//{
+		//	switch (MainOption)
+		//	{
+		//		case MenuOptions.InputStudents:
+		//			StudentManager.InputStudents();
+		//			break;
+		//		case MenuOptions.ShowStudents:
+		//			StudentManager.ShowStudents(true);
+		//			Console.ReadKey();
+		//			break;
+		//		case MenuOptions.InputTrainers:
+		//			TrainerManager.InputTrainers();
+		//			break;
+		//		case MenuOptions.ShowTrainers:
+		//			TrainerManager.ShowTrainers(true);
+		//			Console.ReadKey();
+		//			break;
+		//		case MenuOptions.InputAssignments:
+		//			AssignmentManager.InputAssignments();
+		//			break;
+		//		case MenuOptions.ShowAssignments:
+		//			AssignmentManager.ShowAssignments(true);
+		//			Console.ReadKey();
+		//			break;
+		//		case MenuOptions.InputCourses:
+		//			CourseManager.InputCourses();
+		//			break;
+		//		case MenuOptions.ShowCourses:
+		//			CourseManager.ShowCourses(true);
+		//			Console.ReadKey();
+		//			break;
+		//		case MenuOptions.ManageConnections:
+		//			int ConnectChoice;
+		//			ConnectionMenuOptions connectOption;
+
+		//			do
+		//			{
+		//				ConnectChoice = ShowConnectionsMenuAndChoose();
+
+		//				connectOption = (ConnectionMenuOptions)ConnectChoice;
+
+		//				DoConnectionAction(connectOption);
+
+		//			} while (connectOption != ConnectionMenuOptions.Exit);
+
+		//			break;
+		//		case MenuOptions.CheckDateForSubmissions:
+		//			CheckDateForSubmissions();
+		//			break;
+		//		default:
+		//			break;
+		//	}
 
 			
-		}
+		//}
 
 		//connections
 
-		private static int ShowConnectionsMenuAndChoose()
+		public static int ShowConnectionsMenuAndChoose()
 		{
 			Console.WriteLine("CONNECT OPTIONS");
 
@@ -163,7 +192,7 @@ namespace Assignment1
 			return choice;
 		}
 
-		private static void DoConnectionAction(ConnectionMenuOptions ConnectionOption)
+		public static void DoConnectionAction(ConnectionMenuOptions ConnectionOption)
 		{
 			switch (ConnectionOption)
 			{
@@ -748,7 +777,7 @@ namespace Assignment1
 
 		// check date for submissions
 
-		private static void CheckDateForSubmissions()
+		public static void CheckDateForSubmissions()
 		{
 			DayOfWeek[] days = {
 				DayOfWeek.Monday,
