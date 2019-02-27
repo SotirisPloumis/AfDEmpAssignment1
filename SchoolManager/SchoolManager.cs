@@ -6,34 +6,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment1
+namespace School
 {
-	static class SchoolManager
+	public static class SchoolManager
 	{
 		public static List<Student> StudentList = new List<Student>();
 		public static List<Trainer> TrainerList = new List<Trainer>();
 		public static List<Assignment> AssignmentList = new List<Assignment>();
 		public static List<Course> CourseList = new List<Course>();
 
-		public static string GreetMessage()
+		public static string GetGreetMessage()
 		{
 			string Line1 = "Welcome to School Manager 2019\n";
 			string Line2 = "Created by Sotiris Ploumis\n";
-			string Line3 = "Assignment 1 of the C# AfDEmp Bootcamp \n";
+			string Line3 = "Assignment 1 of the C# AfDEmp Bootcamp\n";
 
 			StringBuilder s = new StringBuilder();
 			s.Append(Line1);
 			s.Append(Line2);
 			s.Append(Line3);
 
-			string message = s.ToString();
-
-			return message;
+			return s.ToString();
 		}
 
 		public static List<string> GetMainMenu()
 		{
-			List<string> menu = new List<string>
+			return new List<string>
 			{
 				"1. Input students",
 				"2. Show all students",
@@ -47,117 +45,7 @@ namespace Assignment1
 				"10. Check date for submissions",
 				"0. Exit"
 			};
-
-			return menu;
 		}
-
-		//public static int ShowMenuAndChoose()
-		//{
-		//	Console.WriteLine("MAIN OPTIONS");
-
-		//	Console.WriteLine("1. Input students");
-		//	Console.WriteLine("2. Show all students");
-
-		//	Console.WriteLine("3. Input trainers");
-		//	Console.WriteLine("4. Show all trainers");
-
-		//	Console.WriteLine("5. Input assignments");
-		//	Console.WriteLine("6. Show all assignments");
-
-		//	Console.WriteLine("7. Input courses");
-		//	Console.WriteLine("8. Show all courses");
-
-		//	Console.WriteLine("9. Manage connections");
-
-		//	Console.WriteLine("10. Check date for submissions");
-
-		//	Console.WriteLine("0. Exit");
-
-		//	bool goodChoice;
-		//	int choice;
-		//	do
-		//	{
-		//		string input = Console.ReadLine();
-		//		goodChoice = Int32.TryParse(input, out choice);
-		//	} while (!goodChoice || choice < 0 || choice > 10);
-
-		//	Console.WriteLine();
-		//	return choice;
-		//}
-
-		//public static string ManualOrAuto(string element)
-		//{
-		//	string option;
-		//	do
-		//	{
-		//		Console.WriteLine($"type 'm' to enter {element} manualy, or 'a' to get a default list");
-
-		//		option = Console.ReadLine();
-
-		//	} while (!option.Equals("m") && !option.Equals("a") && !option.Equals("A") && !option.Equals("M"));
-
-		//	Console.WriteLine();
-		//	return option;
-		//}
-
-		//public static void DoMainAction(MenuOptions MainOption)
-		//{
-		//	switch (MainOption)
-		//	{
-		//		case MenuOptions.InputStudents:
-		//			StudentManager.InputStudents();
-		//			break;
-		//		case MenuOptions.ShowStudents:
-		//			StudentManager.ShowStudents(true);
-		//			Console.ReadKey();
-		//			break;
-		//		case MenuOptions.InputTrainers:
-		//			TrainerManager.InputTrainers();
-		//			break;
-		//		case MenuOptions.ShowTrainers:
-		//			TrainerManager.ShowTrainers(true);
-		//			Console.ReadKey();
-		//			break;
-		//		case MenuOptions.InputAssignments:
-		//			AssignmentManager.InputAssignments();
-		//			break;
-		//		case MenuOptions.ShowAssignments:
-		//			AssignmentManager.ShowAssignments(true);
-		//			Console.ReadKey();
-		//			break;
-		//		case MenuOptions.InputCourses:
-		//			CourseManager.InputCourses();
-		//			break;
-		//		case MenuOptions.ShowCourses:
-		//			CourseManager.ShowCourses(true);
-		//			Console.ReadKey();
-		//			break;
-		//		case MenuOptions.ManageConnections:
-		//			int ConnectChoice;
-		//			ConnectionMenuOptions connectOption;
-
-		//			do
-		//			{
-		//				ConnectChoice = ShowConnectionsMenuAndChoose();
-
-		//				connectOption = (ConnectionMenuOptions)ConnectChoice;
-
-		//				DoConnectionAction(connectOption);
-
-		//			} while (connectOption != ConnectionMenuOptions.Exit);
-
-		//			break;
-		//		case MenuOptions.CheckDateForSubmissions:
-		//			CheckDateForSubmissions();
-		//			break;
-		//		default:
-		//			break;
-		//	}
-
-			
-		//}
-
-		//connections
 
 		public static int ShowConnectionsMenuAndChoose()
 		{

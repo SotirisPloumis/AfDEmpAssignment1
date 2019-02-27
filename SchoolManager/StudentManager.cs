@@ -1,22 +1,23 @@
 ﻿using System;
 using System.IO;
 using System.Globalization;
+using Common;
+using System.Text;
+using System.Collections.Generic;
 
-namespace Assignment1
+namespace School
 {
-	static class StudentManager
+	public static class StudentManager
 	{
-		public static void InputStudents(string option)
+		public static List<string> InputStudents(bool auto)
 		{
-			if (option.Equals("a") || option.Equals("A"))
+			if (auto)
 			{
-				AutoFillStudents();
-				Console.ReadKey();
+				 return AutoFillStudents();
 			}
 			else
 			{
-				ManualFillStudents();
-				Console.WriteLine();
+				return ManualFillStudents();
 			}
 		}
 
@@ -47,13 +48,13 @@ namespace Assignment1
 			Console.WriteLine();
 		}
 
-		private static void AutoFillStudents()
+		private static List<string> AutoFillStudents()
 		{
 			//get the current directory
 			string current = Directory.GetCurrentDirectory();
 
 			//get the path to the file with students
-			string path = Path.Combine(current, @"..\..\Data\autostudents.txt");
+			string path = Path.Combine(current, CommonValues.DataDirectory, CommonValues.StudentsFile);
 			string[] allStudents;
 
 			//try to read the lines of the file
@@ -63,70 +64,82 @@ namespace Assignment1
 			}
 			catch (FileNotFoundException)
 			{
-				Console.WriteLine("autostudents.txt file not found");
-				Console.WriteLine("this program searcher for an autostudents.txt file in '..\\..\\Data' relative to the application\n");
-				return;
+				string Line1 = $"ERROR: File '{CommonValues.StudentsFile}' not found";
+				string Line2 = $"This program searches for a {CommonValues.StudentsFile} file in '{CommonValues.DataDirectory}' relative to the application\n";
+				StringBuilder s = new StringBuilder();
+				s.AppendLine(Line1);
+				s.AppendLine(Line2);
+
+				throw new FileNotFoundException(s.ToString());
 			}
 			catch (DirectoryNotFoundException)
 			{
-				Console.WriteLine("directory 'Data' not found");
-				Console.WriteLine("this program searcher for an autostudents.txt file in '..\\..\\Data' relative to the application\n");
-				return;
+				string Line1 = $"ERROR: Directory '{CommonValues.DataDirectory}' not found";
+				string Line2 = $"This program searches for an '{CommonValues.DataDirectory}' directory relative to '{current}'\n";
+
+				StringBuilder s = new StringBuilder();
+				s.AppendLine(Line1);
+				s.AppendLine(Line2);
+
+				throw new DirectoryNotFoundException(s.ToString());
 			}
 
 			//save the size before auto input, we need it for later
 			int sizeBefore = SchoolManager.StudentList.Count;
 
+			int position = 0;
+			List<string> LineErrors = new List<string>();
+
 			//for every line...
-			int position = 1;
 			foreach (string line in allStudents)
 			{
+				position++;
 				bool correct;
 				string[] items = line.Split('-');
 
 				//check if something is missing
 				if (items.Length < 4)
 				{
-					Console.WriteLine("An argument is missing\n");
+					LineErrors.Add($"Line {position}: Arguments are missing");
 					continue;
 				}
 				else if (items.Length > 4)
 				{
-					Console.WriteLine("too many arguments\n");
+					LineErrors.Add($"Line {position}: Too many arguments");
 					continue;
 				}
 
-				string fname = items[0];
-				string lname = items[1];
+				string fname = items[0].Trim();
+				string lname = items[1].Trim();
 
 				//check if student exists already
 				bool AlreadyExists = StudentExists(fname, lname);
 				if (AlreadyExists)
 				{
-					Console.WriteLine($"{fname} {lname} already exists\n");
+					LineErrors.Add($"Line {position}: {fname} {lname} already exists");
 					continue;
 				}
 
 				//check the validity of date
-				correct = DateTime.TryParse(items[2], out DateTime dob);
+				correct = DateTime.TryParse(items[2].Trim(), out DateTime dob);
 				if (!correct)
 				{
-					Console.WriteLine($"Line {position}: the date of birth is not correct, skipping line");
+					LineErrors.Add($"Line {position}: Date of birth is not correct");
 					continue;
 				}
 
 				//check the logical validity of date
 				if (dob >= DateTime.Now || dob <= DateTime.Now.AddYears(-100))
 				{
-					Console.WriteLine($"{dob} doesn't make sense for birthday\n");
+					LineErrors.Add($"Line {position}: {dob} doesn't make sense for birthday");
 					continue;
 				}
 
 				//check the validity of tuition
-				correct = Decimal.TryParse(items[3], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal fees);
+				correct = Decimal.TryParse(items[3].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out decimal fees);
 				if (!correct)
 				{
-					Console.WriteLine($"Line {position}: the tuition are not a number, skipping line");
+					LineErrors.Add($"Line {position}: Tuition is not a number");
 					continue;
 				}
 
@@ -142,21 +155,23 @@ namespace Assignment1
 				//add the student to the list
 				SchoolManager.StudentList.Add(s);
 
+				
+
 			}
 			//check if any students got added
 			if (SchoolManager.StudentList.Count == sizeBefore)
 			{
-				Console.WriteLine("Couldn't auto save any students from the file");
+				LineErrors.Add($"Couldn't auto save any students from file {CommonValues.StudentsFile}");
 			}
 			else
 			{
-				Console.WriteLine($"Successfully saved {SchoolManager.StudentList.Count - sizeBefore} new students");
+				LineErrors.Add($"Successfully saved {SchoolManager.StudentList.Count - sizeBefore} new students");
 			}
-			Console.WriteLine();
+			return LineErrors;
 
 		}
 
-		private static void ManualFillStudents()
+		private static List<string> ManualFillStudents()
 		{
 			Student s;
 			while (true)
@@ -241,7 +256,10 @@ namespace Assignment1
 				//print result
 				Console.WriteLine($"Student {s.FirstName} {s.LastName} saved\n");
 			}
+
+			return new List<string>();
 		}
+
 		private static bool StudentExists(string firstName,string lastName)
 		{
 			//criteria for existence is firstname,lastname

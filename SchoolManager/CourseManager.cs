@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Globalization;
 
-namespace Assignment1
+namespace School
 {
-	static class CourseManager
+	public static class CourseManager
 	{
-		public static void InputCourses(string option)
+		public static void InputCourses(bool option)
 		{
-			if (option.Equals("a") || option.Equals("A"))
+			if (option)
 			{
 				AutoFillCourses();
 				Console.ReadKey();

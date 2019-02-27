@@ -4,28 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment1
+namespace School
 {
-	class Student
+	public class Trainer
 	{
-		//private DateTime dob;
-
+		//private string _subject;
 		public string FirstName { get; set; }
 
 		public string LastName { get; set; }
 
-		public DateTime DateOfBirth { get; set; }
-
-		public decimal TuitionFess { get; set; }
+		public string Subject { get; set; }
 
 		public List<int> CourseCodes { get; set; }
 
-		public List<int> AssignmentCodes { get; set; }
-
-		public Student()
+		public Trainer()
 		{
 			CourseCodes = new List<int>();
-			AssignmentCodes = new List<int>();
 		}
 	}
 }

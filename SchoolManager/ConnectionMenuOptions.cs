@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment1
+namespace School
 {
-	enum ConnectionMenuOptions
+ 	public enum ConnectionMenuOptions
 	{
 		Exit = 0,
 		ConnectStudentsCourses = 1,

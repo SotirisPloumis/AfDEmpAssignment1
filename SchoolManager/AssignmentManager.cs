@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IO;
 
-namespace Assignment1
+namespace School
 {
-	static class AssignmentManager
+	public static class AssignmentManager
 	{
-		public static void InputAssignments(string option)
+		public static void InputAssignments(bool option)
 		{
-			if (option.Equals("a") || option.Equals("a"))
+			if (option)
 			{
 				AutoFillAssignments();
 				Console.ReadKey();

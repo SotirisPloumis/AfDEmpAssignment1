@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9AF574D7-3E44-4834-9810-B7E0D13C85C7}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Assignment1</RootNamespace>
-    <AssemblyName>Assignment1</AssemblyName>
+    <ProjectGuid>{0291B056-D0B4-4C07-A081-776022B742FF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SchoolManager</RootNamespace>
+    <AssemblyName>SchoolManager</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,16 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Assignment.cs" />
+    <Compile Include="AssignmentManager.cs" />
+    <Compile Include="ConnectionMenuOptions.cs" />
+    <Compile Include="Course.cs" />
+    <Compile Include="CourseManager.cs" />
+    <Compile Include="MenuOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SchoolManager.cs" />
+    <Compile Include="Student.cs" />
+    <Compile Include="StudentManager.cs" />
+    <Compile Include="Trainer.cs" />
+    <Compile Include="TrainerManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ConsoleUI\ConsoleUI.csproj">
-      <Project>{f06fad71-a44d-4e0f-95c0-7ba1856ebb18}</Project>
-      <Name>ConsoleUI</Name>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{e619dd13-d780-4831-b4aa-47dadfb19ff3}</Project>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

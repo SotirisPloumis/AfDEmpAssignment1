@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment1
+namespace School
 {
-	class Course
+	public class Course
 	{
 		public string Title { get; set; }
 

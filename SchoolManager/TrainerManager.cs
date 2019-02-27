@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IO;
 
-namespace Assignment1
+namespace School
 {
-	class TrainerManager
+	public class TrainerManager
 	{
-		public static void InputTrainers(string option)
+		public static void InputTrainers(bool option)
 		{
-			if (option.Equals("a") || option.Equals("A"))
+			if (option)
 			{
 				AutoFillTrainers();
 				Console.ReadKey();

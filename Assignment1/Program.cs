@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Common;
 
 namespace Assignment1
 {
@@ -10,7 +6,9 @@ namespace Assignment1
 	{
 		static void Main(string[] args)
 		{
-			ConsoleUI.StartConsoleUI();
+			ConsoleUI cui = new ConsoleUI();
+
+			cui.StartConsoleUI();
 		}
 	}
 }
