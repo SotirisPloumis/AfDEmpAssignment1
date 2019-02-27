@@ -173,7 +173,8 @@ namespace School
 
 		private static List<string> ManualFillStudents()
 		{
-			Student s;
+			//List<string> InputErrors = new List<string>();
+
 			while (true)
 			{
 				//prompt
@@ -242,7 +243,7 @@ namespace School
 				}
 
 				//create the new student
-				s = new Student()
+				Student s = new Student()
 				{
 					FirstName = fname,
 					LastName = lname,
